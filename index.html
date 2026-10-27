@@ -1,1 +1,508 @@
-PLACEHOLDER_WILL_REPLACE
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evil Learning</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;500;600;700&display=swap');
+  
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+    color: #f0f4f8;
+    background: #0a0e17;
+  }
+  
+  #landing {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(145deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+    transition: opacity 0.6s ease, visibility 0.6s;
+  }
+  
+  #landing.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  
+  .evil-btn {
+    font-family: 'Press Start 2P', cursive;
+    font-size: clamp(1.1rem, 3.5vw, 1.8rem);
+    padding: 28px 48px;
+    background: linear-gradient(135deg, #7f1d1d, #991b1b, #b91c1c);
+    color: #fecaca;
+    border: 3px solid #f87171;
+    border-radius: 16px;
+    cursor: pointer;
+    box-shadow: 0 0 40px rgba(239, 68, 68, 0.4), 0 10px 30px rgba(0,0,0,0.5);
+    transition: all 0.25s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  .evil-btn:hover {
+    transform: scale(1.06);
+    box-shadow: 0 0 60px rgba(239, 68, 68, 0.6), 0 15px 40px rgba(0,0,0,0.6);
+    background: linear-gradient(135deg, #991b1b, #b91c1c, #dc2626);
+  }
+  
+  .evil-btn:active {
+    transform: scale(0.98);
+  }
+  
+  .landing-sub {
+    margin-top: 24px;
+    font-size: 0.95rem;
+    opacity: 0.6;
+    text-align: center;
+    max-width: 320px;
+  }
+  
+  .bg-container {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+  }
+  
+  .bg-slide {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 2.5s ease-in-out;
+    animation: kenburns 40s ease-in-out infinite alternate;
+  }
+  
+  .bg-slide.active {
+    opacity: 1;
+    z-index: 1;
+  }
+  
+  .bg1 {
+    background-image: url('data:image/jpeg;base64,PLACEHOLDER_IMG62');
+  }
+  
+  .bg2 {
+    background-image: url('data:image/jpeg;base64,PLACEHOLDER_IMG61');
+  }
+  
+  @keyframes kenburns {
+    0% { transform: scale(1) translate(0,0); }
+    100% { transform: scale(1.12) translate(-1.5%, -1%); }
+  }
+  
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(180deg, 
+      rgba(10,14,23,0.55) 0%, 
+      rgba(10,14,23,0.25) 40%, 
+      rgba(10,14,23,0.65) 100%);
+    z-index: 2;
+    pointer-events: none;
+  }
+  
+  .content {
+    position: relative;
+    z-index: 10;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+    display: none;
+  }
+  
+  .content.visible {
+    display: block;
+  }
+  
+  header {
+    text-align: center;
+    margin-bottom: 36px;
+    animation: fadeInDown 1s ease-out;
+  }
+  
+  h1 {
+    font-family: 'Press Start 2P', cursive;
+    font-size: clamp(1.3rem, 3.8vw, 2rem);
+    line-height: 1.5;
+    background: linear-gradient(135deg, #fbbf24, #f59e0b, #ea580c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 12px;
+  }
+  
+  .subtitle {
+    font-size: 1.05rem;
+    opacity: 0.85;
+    font-weight: 500;
+  }
+  
+  .hate-banner {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 10px 20px;
+    background: rgba(239, 68, 68, 0.18);
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #fca5a5;
+    letter-spacing: 0.02em;
+  }
+  
+  .timer {
+    display: inline-block;
+    margin-top: 18px;
+    padding: 10px 20px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 999px;
+    font-size: 0.9rem;
+    backdrop-filter: blur(12px);
+    min-height: 42px;
+    transition: opacity 0.4s;
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 28px;
+  }
+  
+  .card {
+    background: rgba(15, 23, 42, 0.72);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px;
+    padding: 28px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: fadeInUp 0.8s ease-out both;
+  }
+  
+  .card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 28px 60px rgba(0,0,0,0.5);
+  }
+  
+  .card:nth-child(1) { animation-delay: 0.1s; }
+  .card:nth-child(2) { animation-delay: 0.25s; }
+  .card:nth-child(3) { animation-delay: 0.4s; }
+  
+  .card h2 {
+    font-size: 1.35rem;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .card h2 span.icon { font-size: 1.5rem; }
+  
+  .card p.desc {
+    font-size: 0.9rem;
+    opacity: 0.75;
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+  
+  .links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    color: #e2e8f0;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+  }
+  
+  .link:hover {
+    background: rgba(251, 191, 36, 0.15);
+    border-color: rgba(251, 191, 36, 0.4);
+    color: #fbbf24;
+    transform: translateX(4px);
+  }
+  
+  .link .tag {
+    font-size: 0.7rem;
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: rgba(34,197,94,0.2);
+    color: #4ade80;
+    font-weight: 600;
+  }
+  
+  .link .tag.warn {
+    background: rgba(251,191,36,0.2);
+    color: #fbbf24;
+  }
+  
+  .section-title {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.6;
+    margin: 18px 0 10px;
+    font-weight: 600;
+  }
+  
+  .note {
+    margin-top: 20px;
+    padding: 14px;
+    background: rgba(239,68,68,0.12);
+    border: 1px solid rgba(239,68,68,0.25);
+    border-radius: 12px;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: #fca5a5;
+  }
+  
+  footer {
+    text-align: center;
+    margin-top: 60px;
+    opacity: 0.6;
+    font-size: 0.85rem;
+  }
+  
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .tip {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 20;
+    background: rgba(15,23,42,0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    opacity: 0.9;
+    display: none;
+  }
+  
+  .tip.visible { display: block; }
+  
+  @media (max-width: 600px) {
+    .content { padding: 24px 16px 100px; }
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+  <div id="landing">
+    <button class="evil-btn" id="evilBtn">evil learning</button>
+    <p class="landing-sub">click to unlock the real stuff</p>
+  </div>
+
+  <div class="bg-container">
+    <div class="bg-slide bg1 active"></div>
+    <div class="bg-slide bg2"></div>
+  </div>
+  <div class="overlay"></div>
+  
+  <div class="content" id="mainContent">
+    <header>
+      <h1>Cozy Minecraft Hub</h1>
+      <p class="subtitle">Stunning wallpaper • Smooth 10-minute fades • Proxies & Unblocked Games</p>
+      <div class="hate-banner">me and my homies hate ridgeland securly</div>
+      <div class="timer" id="timer">yo bro put on dat losercore playlist</div>
+    </header>
+    
+    <div class="grid">
+      <div class="card">
+        <h2><span class="icon">🔒</span> Web Proxies</h2>
+        <p class="desc">Quick browser proxies that often slip past school filters. Bookmark a few — they rotate a lot.</p>
+        
+        <div class="links">
+          <a class="link" href="https://www.croxyproxy.com/" target="_blank" rel="noopener">CroxyProxy <span class="tag">Popular</span></a>
+          <a class="link" href="https://hide.me/en/proxy" target="_blank" rel="noopener">Hide.me Proxy <span class="tag">Solid</span></a>
+          <a class="link" href="https://www.4everproxy.com/" target="_blank" rel="noopener">4everproxy <span class="tag">No limits</span></a>
+          <a class="link" href="https://www.proxysite.com/" target="_blank" rel="noopener">ProxySite.com <span class="tag">Classic</span></a>
+          <a class="link" href="https://www.filterbypass.me/" target="_blank" rel="noopener">FilterBypass <span class="tag">Encrypted</span></a>
+          <a class="link" href="https://kproxy.com/" target="_blank" rel="noopener">KProxy <span class="tag">Extension too</span></a>
+        </div>
+        
+        <div class="section-title">School-style Unblockers</div>
+        <div class="links">
+          <a class="link" href="https://s3.amazonaws.com/frnbk/index.html" target="_blank" rel="noopener">Fern (S3) <span class="tag warn">Try</span></a>
+          <a class="link" href="https://s3.amazonaws.com/bullbk/index.html" target="_blank" rel="noopener">BullBK <span class="tag warn">Try</span></a>
+          <a class="link" href="https://tungtung.vip/" target="_blank" rel="noopener">TungTung <span class="tag warn">Try</span></a>
+          <a class="link" href="https://interstellar.altolospilos.cl/" target="_blank" rel="noopener">Interstellar mirror <span class="tag warn">Try</span></a>
+        </div>
+        
+        <div class="note">
+          ⚠️ These change constantly. If one dies, just try the next. Never put real passwords through random proxies.
+        </div>
+      </div>
+      
+      <div class="card">
+        <h2><span class="icon">🎮</span> Unblocked Games</h2>
+        <p class="desc">From Retro Bowl to Half-Life ports to Roblox web clients. Pure browser fun.</p>
+        
+        <div class="section-title">Classics & Sports</div>
+        <div class="links">
+          <a class="link" href="https://poki.com/en/g/retro-bowl" target="_blank" rel="noopener">Retro Bowl (Official on Poki) <span class="tag">Best</span></a>
+          <a class="link" href="https://retrobowl.me/" target="_blank" rel="noopener">Retro Bowl .me <span class="tag">Alt</span></a>
+          <a class="link" href="https://retrobowlgame.com/" target="_blank" rel="noopener">RetroBowlGame.com <span class="tag">Alt</span></a>
+          <a class="link" href="https://www.basketball-stars.io/" target="_blank" rel="noopener">Basketball Stars</a>
+        </div>
+        
+        <div class="section-title">Half-Life & Big Ports</div>
+        <div class="links">
+          <a class="link" href="https://www.inxanitylabs.com/games/half-life" target="_blank" rel="noopener">Half-Life (INXANITY) <span class="tag">Xash3D</span></a>
+          <a class="link" href="https://pixelsuft.github.io/hl/" target="_blank" rel="noopener">Half-Life (Pixelsuft) <span class="tag">Full data</span></a>
+          <a class="link" href="https://x8bitrain.github.io/webXash/" target="_blank" rel="noopener">WebXash (HL + CS) <span class="tag">Bring files</span></a>
+          <a class="link" href="https://www.inxanitylabs.com/games" target="_blank" rel="noopener">INXANITY Full Library <span class="tag">100+ games</span></a>
+        </div>
+        
+        <div class="section-title">Roblox & Big Platforms</div>
+        <div class="links">
+          <a class="link" href="https://now.gg/apps/roblox-corporation/5349/roblox.html" target="_blank" rel="noopener">Roblox on now.gg <span class="tag">Cloud</span></a>
+          <a class="link" href="https://www.roblox.com/" target="_blank" rel="noopener">Roblox Official</a>
+          <a class="link" href="https://unblocked-2026.github.io/" target="_blank" rel="noopener">Unblocked Games 2026 Hub <span class="tag">450+</span></a>
+        </div>
+        
+        <div class="section-title">More Instant Classics</div>
+        <div class="links">
+          <a class="link" href="https://1v1.lol/" target="_blank" rel="noopener">1v1.LOL</a>
+          <a class="link" href="https://slopegame.io/" target="_blank" rel="noopener">Slope</a>
+          <a class="link" href="https://shellshock.io/" target="_blank" rel="noopener">Shell Shockers</a>
+          <a class="link" href="https://poki.com/" target="_blank" rel="noopener">Poki (Huge library)</a>
+        </div>
+      </div>
+      
+      <div class="card">
+        <h2><span class="icon">✨</span> How to Use This</h2>
+        <p class="desc">Make this your forever chill background.</p>
+        
+        <div class="links" style="margin-bottom: 20px;">
+          <div class="link" style="cursor: default;"><span>Press F11 for true fullscreen wallpaper mode</span></div>
+          <div class="link" style="cursor: default;"><span>Images crossfade every 10 minutes with slow zoom</span></div>
+          <div class="link" style="cursor: default;"><span>Works offline once loaded (except the links)</span></div>
+        </div>
+        
+        <div class="section-title">Pro Tips</div>
+        <p style="font-size: 0.9rem; line-height: 1.6; opacity: 0.85;">
+          • Open this file in Chrome or Edge for best performance.<br>
+          • Leave the browser open on a second monitor for permanent wallpaper vibes.<br>
+          • Hosted on restii-dev/RustiOP
+        </p>
+        
+        <div class="note" style="background: rgba(34,197,94,0.12); border-color: rgba(34,197,94,0.25); color: #86efac;">
+          ✅ All images are embedded. Fully portable single HTML file.
+        </div>
+      </div>
+    </div>
+    
+    <footer>
+      Made for the cozy Minecraft nights • me and my homies hate ridgeland securly
+    </footer>
+  </div>
+  
+  <div class="tip" id="tip">F11 = Fullscreen • Wallpaper mode activated</div>
+  
+  <script>
+    document.getElementById('evilBtn').addEventListener('click', function() {
+      const htmlContent = document.documentElement.outerHTML;
+      const blob = new Blob([htmlContent], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'evil-learning-wallpaper.html';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      
+      document.getElementById('landing').classList.add('hidden');
+      document.getElementById('mainContent').classList.add('visible');
+      document.getElementById('tip').classList.add('visible');
+      startSlideshow();
+    });
+    
+    const phrases = [
+      "yo bro put on dat losercore playlist",
+      "me and my homies hate ridgeland securly",
+      "this is peak cozy hours fr",
+      "touch some grass... after this game",
+      "locked in with the squad",
+      "no thoughts just vibes",
+      "school wifi cant stop us",
+      "retro bowl season never ends",
+      "half life in the browser is crazy",
+      "pass the aux, losercore only",
+      "ridgeland securly is mid",
+      "we out here unblocked",
+      "minecraft sunset hits different",
+      "just one more game...",
+      "homies stay winning",
+      "this wallpaper goes hard",
+      "f11 for maximum immersion",
+      "proxies and chill",
+      "the cabin is calling",
+      "stay cozy out there king"
+    ];
+    
+    const slides = document.querySelectorAll('.bg-slide');
+    let current = 0;
+    const INTERVAL = 10 * 60 * 1000;
+    
+    function nextSlide() {
+      slides[current].classList.remove('active');
+      current = (current + 1) % slides.length;
+      slides[current].classList.add('active');
+    }
+    
+    function randomPhrase() {
+      const el = document.getElementById('timer');
+      el.style.opacity = '0';
+      setTimeout(() => {
+        el.textContent = phrases[Math.floor(Math.random() * phrases.length)];
+        el.style.opacity = '1';
+      }, 300);
+    }
+    
+    function startSlideshow() {
+      setInterval(nextSlide, INTERVAL);
+      setInterval(randomPhrase, 12000);
+      randomPhrase();
+    }
+    
+    document.querySelector('.bg-container').addEventListener('dblclick', nextSlide);
+  </script>
+</body>
+</html>
