@@ -1,1 +1,108 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evil Learning</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;500;600;700&display=swap');
+  
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+    color: #f0f4f8;
+    background: #0a0e17;
+  }
+  
+  #landing {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(145deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+    transition: opacity 0.6s ease, visibility 0.6s;
+  }
+  
+  #landing.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  
+  .evil-btn {
+    font-family: 'Press Start 2P', cursive;
+    font-size: clamp(1.1rem, 3.5vw, 1.8rem);
+    padding: 28px 48px;
+    background: linear-gradient(135deg, #7f1d1d, #991b1b, #b91c1c);
+    color: #fecaca;
+    border: 3px solid #f87171;
+    border-radius: 16px;
+    cursor: pointer;
+    box-shadow: 0 0 40px rgba(239, 68, 68, 0.4), 0 10px 30px rgba(0,0,0,0.5);
+    transition: all 0.25s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  .evil-btn:hover {
+    transform: scale(1.06);
+    box-shadow: 0 0 60px rgba(239, 68, 68, 0.6), 0 15px 40px rgba(0,0,0,0.6);
+    background: linear-gradient(135deg, #991b1b, #b91c1c, #dc2626);
+  }
+  
+  .evil-btn:active {
+    transform: scale(0.98);
+  }
+  
+  .landing-sub {
+    margin-top: 24px;
+    font-size: 0.95rem;
+    opacity: 0.6;
+    text-align: center;
+    max-width: 320px;
+  }
+  
+  .bg-container {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+  }
+  
+  .bg-slide {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 2.5s ease-in-out;
+    animation: kenburns 40s ease-in-out infinite alternate;
+  }
+  
+  .bg-slide.active {
+    opacity: 1;
+    z-index: 1;
+  }
+  
+  .bg1 {
+    background-image: url('data:image/jpeg;base64,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');
+  }
+  
+  .bg2 {
+    background-image: url('data:image/jpeg;base64,PLACEHOLDER');
+  }
+</style>
+</head>
+<body>
+  <div id="landing">
+    <button class="evil-btn" id="evilBtn">evil learning</button>
+    <p class="landing-sub">click to unlock the real stuff</p>
+  </div>
+</body>
+</html>
