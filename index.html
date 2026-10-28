@@ -9,8 +9,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:Inter,system-ui,sans-serif;min-height:100vh;background:#2a211c;color:#e8d5c0;overflow:hidden}
-.bg{position:fixed;inset:0;z-index:0;opacity:0;transition:opacity 2.5s}
-.bg.active{opacity:.2}
 .bg-overlay{position:fixed;inset:0;z-index:1;background:linear-gradient(160deg,#2a211c,#3d2b22 50%,#2a211c);opacity:.85}
 #app{display:flex;position:relative;z-index:10;height:100vh;flex-direction:column}
 .topbar{display:flex;align-items:center;gap:10px;height:48px;padding:0 12px;background:rgba(40,30,24,.85);backdrop-filter:blur(16px);border-bottom:1px solid rgba(196,92,38,.2)}
@@ -61,75 +59,78 @@ body{font-family:Inter,system-ui,sans-serif;min-height:100vh;background:#2a211c;
 <div id="app">
 <div class="topbar">
 <div class="nav-btns"><button>←</button><button>→</button><button>↻</button></div>
-<div class="url-bar"><input type="text" id="urlInput" placeholder="Search or enter URL..."><button class="go" onclick="goUrl()">Go</button></div>
-<div class="top-right"><a href="https://restii-dev.github.io/epose/" target="_blank">Scramjet</a><button onclick="downloadFile()">Download</button></div>
+<div class="url-bar"><input type="text" id="urlInput" placeholder="Search or enter URL (proxied)..."><button class="go" onclick="goUrl()">Go</button></div>
+<div class="top-right"><a href="#" onclick="proxyOpen('https://restii-dev.github.io/epose/');return false">Scramjet</a><button onclick="downloadFile()">Download</button></div>
 </div>
 <div class="sidebar">
 <button class="active" onclick="closePanels()">⌂</button>
 <button onclick="openPanel('games')">🎮</button>
 <button onclick="openPanel('proxies')">🔒</button>
-<a href="https://shuttletv.su/" target="_blank">📺</a>
-<a href="https://restii-dev.github.io/epose/" target="_blank">🌐</a>
+<a href="#" onclick="proxyOpen('https://shuttletv.su/');return false" title="ShuttleTV">📺</a>
+<a href="#" onclick="proxyOpen('https://restii-dev.github.io/epose/');return false" title="Scramjet">🌐</a>
 </div>
 <div class="center">
 <div class="logo-row"><div class="logo-mark">R</div><div class="logo-text">RustikOP</div></div>
-<div class="search-big"><input type="text" id="mainSearch" placeholder="Search the web..." onkeydown="if(event.key==='Enter')goUrl(true)"><button onclick="goUrl(true)">→</button></div>
+<div class="search-big"><input type="text" id="mainSearch" placeholder="Search or URL — opens via proxy" onkeydown="if(event.key==='Enter')goUrl(true)"><button onclick="goUrl(true)">→</button></div>
 <div class="shortcuts">
-<a class="shortcut" href="https://poki.com/en/g/retro-bowl" target="_blank"><div class="icon">🏈</div><span>Retro Bowl</span></a>
-<a class="shortcut" href="https://1v1.lol/" target="_blank"><div class="icon">🔫</div><span>1v1.LOL</span></a>
-<a class="shortcut" href="https://www.youtube.com/" target="_blank"><div class="icon">▶️</div><span>YouTube</span></a>
-<a class="shortcut" href="https://www.instagram.com/" target="_blank"><div class="icon">📷</div><span>Instagram</span></a>
-<a class="shortcut" href="https://www.tiktok.com/" target="_blank"><div class="icon">🎵</div><span>TikTok</span></a>
-<a class="shortcut" href="https://discord.com/app" target="_blank"><div class="icon">💬</div><span>Discord</span></a>
-<a class="shortcut" href="https://open.spotify.com/" target="_blank"><div class="icon">🎧</div><span>Spotify</span></a>
-<a class="shortcut" href="https://www.twitch.tv/" target="_blank"><div class="icon">🟣</div><span>Twitch</span></a>
-<a class="shortcut" href="https://now.gg/apps/roblox-corporation/5349/roblox.html" target="_blank"><div class="icon">🧱</div><span>Roblox</span></a>
-<a class="shortcut" href="https://shuttletv.su/" target="_blank"><div class="icon">📺</div><span>ShuttleTV</span></a>
-<a class="shortcut" href="https://restii-dev.github.io/epose/" target="_blank"><div class="icon">🌐</div><span>Scramjet</span></a>
+<a class="shortcut" href="#" onclick="proxyOpen('https://poki.com/en/g/retro-bowl');return false"><div class="icon">🏈</div><span>Retro Bowl</span></a>
+<a class="shortcut" href="#" onclick="proxyOpen('https://1v1.lol/');return false"><div class="icon">🔫</div><span>1v1.LOL</span></a>
+<a class="shortcut" href="#" onclick="proxyOpen('https://www.youtube.com/');return false"><div class="icon">▶️</div><span>YouTube</span></a>
+<a class="shortcut" href="#" onclick="proxyOpen('https://www.instagram.com/');return false"><div class="icon">📷</div><span>Instagram</span></a>
+<a class="shortcut" href="#" onclick="proxyOpen('https://www.tiktok.com/');return false"><div class="icon">🎵</div><span>TikTok</span></a>
+<a class="shortcut" href="#" onclick="proxyOpen('https://discord.com/app');return false"><div class="icon">💬</div><span>Discord</span></a>
+<a class="shortcut" href="#" onclick="proxyOpen('https://open.spotify.com/');return false"><div class="icon">🎧</div><span>Spotify</span></a>
+<a class="shortcut" href="#" onclick="proxyOpen('https://www.twitch.tv/');return false"><div class="icon">🟣</div><span>Twitch</span></a>
+<a class="shortcut" href="#" onclick="proxyOpen('https://now.gg/apps/roblox-corporation/5349/roblox.html');return false"><div class="icon">🧱</div><span>Roblox</span></a>
+<a class="shortcut" href="#" onclick="proxyOpen('https://shuttletv.su/');return false"><div class="icon">📺</div><span>ShuttleTV</span></a>
+<a class="shortcut" href="#" onclick="proxyOpen('https://restii-dev.github.io/epose/');return false"><div class="icon">🌐</div><span>Scramjet</span></a>
 <div class="shortcut" onclick="openPanel('games')"><div class="icon">+</div><span>More</span></div>
 </div>
 </div>
 <div class="bottom">
-<div class="online">online</div>
+<div class="online">online · proxied</div>
 <div class="hate">me and my homies hate ridgeland securly</div>
 <div class="phrase" id="phrase">yo bro put on dat losercore playlist</div>
 </div>
-<div class="panel" id="gamesPanel"><button class="close-panel" onclick="closePanels()">Close</button><h2>Games</h2><div class="panel-grid">
-<a href="https://poki.com/en/g/retro-bowl" target="_blank">Retro Bowl</a>
-<a href="https://1v1.lol/" target="_blank">1v1.LOL</a>
-<a href="https://shellshock.io/" target="_blank">Shell Shockers</a>
-<a href="https://krunker.io/" target="_blank">Krunker</a>
-<a href="https://slopegame.io/" target="_blank">Slope</a>
-<a href="https://www.inxanitylabs.com/games/half-life" target="_blank">Half-Life</a>
-<a href="https://now.gg/apps/roblox-corporation/5349/roblox.html" target="_blank">Roblox</a>
-<a href="https://poki.com/" target="_blank">Poki</a>
-<a href="https://shuttletv.su/" target="_blank">ShuttleTV</a>
+<div class="panel" id="gamesPanel"><button class="close-panel" onclick="closePanels()">Close</button><h2>Games (via proxy)</h2><div class="panel-grid">
+<a href="#" onclick="proxyOpen('https://poki.com/en/g/retro-bowl');return false">Retro Bowl</a>
+<a href="#" onclick="proxyOpen('https://1v1.lol/');return false">1v1.LOL</a>
+<a href="#" onclick="proxyOpen('https://shellshock.io/');return false">Shell Shockers</a>
+<a href="#" onclick="proxyOpen('https://krunker.io/');return false">Krunker</a>
+<a href="#" onclick="proxyOpen('https://slopegame.io/');return false">Slope</a>
+<a href="#" onclick="proxyOpen('https://www.inxanitylabs.com/games/half-life');return false">Half-Life</a>
+<a href="#" onclick="proxyOpen('https://now.gg/apps/roblox-corporation/5349/roblox.html');return false">Roblox</a>
+<a href="#" onclick="proxyOpen('https://poki.com/');return false">Poki</a>
+<a href="#" onclick="proxyOpen('https://shuttletv.su/');return false">ShuttleTV</a>
 </div></div>
 <div class="panel" id="proxiesPanel"><button class="close-panel" onclick="closePanels()">Close</button><h2>Proxies</h2><div class="panel-grid">
-<a href="https://www.croxyproxy.com/" target="_blank">CroxyProxy</a>
-<a href="https://hide.me/en/proxy" target="_blank">Hide.me</a>
-<a href="https://www.4everproxy.com/" target="_blank">4everproxy</a>
-<a href="https://restii-dev.github.io/epose/" target="_blank">Scramjet</a>
-<a href="https://shuttletv.su/" target="_blank">ShuttleTV</a>
+<a href="#" onclick="proxyOpen('https://www.croxyproxy.com/');return false">CroxyProxy</a>
+<a href="#" onclick="proxyOpen('https://hide.me/en/proxy');return false">Hide.me</a>
+<a href="#" onclick="proxyOpen('https://www.4everproxy.com/');return false">4everproxy</a>
+<a href="#" onclick="proxyOpen('https://restii-dev.github.io/epose/');return false">Scramjet (epose)</a>
+<a href="#" onclick="proxyOpen('https://shuttletv.su/');return false">ShuttleTV</a>
 </div></div>
 </div>
 <div class="music-player"><button class="play" id="musicPlayBtn" onclick="toggleMusic()">▶</button><div class="music-info"><div class="track" id="trackName">Sweden</div><div class="album">Minecraft · Volume Alpha · C418</div></div><button class="next" onclick="nextTrack()">⏭</button></div>
 <div id="ytPlayer" style="position:fixed;width:1px;height:1px;opacity:0;pointer-events:none"></div>
 <script>
-function downloadFile(){const t=document.documentElement.outerHTML;const b=new Blob([t],{type:'text/html'});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download='RustikOP.html';document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(u)}
-window.addEventListener('DOMContentLoaded',function(){try{if(!sessionStorage.getItem('rustikop_dl')){setTimeout(downloadFile,400);sessionStorage.setItem('rustikop_dl','1')}}catch(e){setTimeout(downloadFile,400)}startPhrases()});
-function goUrl(m){let q=m?document.getElementById('mainSearch').value.trim():document.getElementById('urlInput').value.trim();if(!q)return;let u=q;if(!/^https?:\/\//i.test(q)){if(q.includes('.')&&!q.includes(' '))u='https://'+q;else u='https://www.google.com/search?q='+encodeURIComponent(q)}if(u.toLowerCase().includes('shuttle')){window.open('https://shuttletv.su/','_blank');return}window.open(u,'_blank')}
-function openPanel(n){closePanels();document.getElementById(n+'Panel').classList.add('open')}
-function closePanels(){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('open'))}
-const phrases=['yo bro put on dat losercore playlist','me and my homies hate ridgeland securly','this is peak cozy hours fr','locked in with the squad','school wifi cant stop us','retro bowl season never ends','scramjet go brrr','rustikop supremacy','shuttle tv hits different','stay cozy out there king'];
-function randomPhrase(){const el=document.getElementById('phrase');el.style.opacity='0';setTimeout(()=>{el.textContent=phrases[Math.floor(Math.random()*phrases.length)];el.style.opacity='1'},250)}
+const PROXY_BASE="https://restii-dev.github.io/epose/";
+function toProxy(url){if(!url)return PROXY_BASE;url=url.trim();if(!/^https?:\/\//i.test(url)){if(url.includes('.')&&!url.includes(' '))url='https://'+url;else url='https://www.google.com/search?q='+encodeURIComponent(url)}return PROXY_BASE+"#/"+encodeURIComponent(url)}
+function proxyOpen(url){window.open(toProxy(url),"_blank")}
+function downloadFile(){const t=document.documentElement.outerHTML;const b=new Blob([t],{type:"text/html"});const u=URL.createObjectURL(b);const a=document.createElement("a");a.href=u;a.download="RustikOP.html";document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(u)}
+window.addEventListener("DOMContentLoaded",function(){try{if(!sessionStorage.getItem("rustikop_dl")){setTimeout(downloadFile,400);sessionStorage.setItem("rustikop_dl","1")}}catch(e){setTimeout(downloadFile,400)}startPhrases()});
+function goUrl(m){let q=m?document.getElementById("mainSearch").value.trim():document.getElementById("urlInput").value.trim();if(!q){proxyOpen("https://www.google.com");return}if(q.toLowerCase().includes("shuttle")){proxyOpen("https://shuttletv.su/");return}proxyOpen(q)}
+function openPanel(n){closePanels();document.getElementById(n+"Panel").classList.add("open")}
+function closePanels(){document.querySelectorAll(".panel").forEach(p=>p.classList.remove("open"))}
+const phrases=["yo bro put on dat losercore playlist","me and my homies hate ridgeland securly","this is peak cozy hours fr","locked in with the squad","school wifi cant stop us","retro bowl season never ends","scramjet go brrr","rustikop supremacy","shuttle tv hits different","stay cozy out there king"];
+function randomPhrase(){const el=document.getElementById("phrase");el.style.opacity="0";setTimeout(()=>{el.textContent=phrases[Math.floor(Math.random()*phrases.length)];el.style.opacity="1"},250)}
 function startPhrases(){setInterval(randomPhrase,11000);randomPhrase()}
-const mcTracks=[{name:'Sweden',id:'aQkgUkkUads'},{name:'Wet Hands',id:'mJhZpYOlM0A'},{name:'Mice on Venus',id:'hZWV7RmR2uM'},{name:'Minecraft',id:'Dg0IjOzopYU'},{name:'Haggstrom',id:'5y2a0Yx5kyA'},{name:'Subwoofer Lullaby',id:'v-_o4nlqyE8'}];
+const mcTracks=[{name:"Sweden",id:"aQkgUkkUads"},{name:"Wet Hands",id:"mJhZpYOlM0A"},{name:"Mice on Venus",id:"hZWV7RmR2uM"},{name:"Minecraft",id:"Dg0IjOzopYU"},{name:"Haggstrom",id:"5y2a0Yx5kyA"},{name:"Subwoofer Lullaby",id:"v-_o4nlqyE8"}];
 let trackIndex=0,player=null,musicOn=false;
-function onYouTubeIframeAPIReady(){player=new YT.Player('ytPlayer',{height:'1',width:'1',videoId:mcTracks[0].id,playerVars:{autoplay:0,controls:0},events:{onStateChange:e=>{if(e.data===YT.PlayerState.ENDED)nextTrack(true)}}})}
-(function(){var t=document.createElement('script');t.src='https://www.youtube.com/iframe_api';document.head.appendChild(t);window.onYouTubeIframeAPIReady=onYouTubeIframeAPIReady})();
-function toggleMusic(){const btn=document.getElementById('musicPlayBtn');if(!player||typeof player.playVideo!=='function'){window.open('https://www.youtube.com/watch?v='+mcTracks[trackIndex].id,'_blank');return}if(musicOn){player.pauseVideo();btn.textContent='▶';musicOn=false}else{player.setVolume(40);player.playVideo();btn.textContent='⏸';musicOn=true}}
-function nextTrack(auto){trackIndex=(trackIndex+1)%mcTracks.length;document.getElementById('trackName').textContent=mcTracks[trackIndex].name;if(player&&player.loadVideoById){player.loadVideoById(mcTracks[trackIndex].id);if(musicOn||auto){player.playVideo();musicOn=true;document.getElementById('musicPlayBtn').textContent='⏸'}}}
+function onYouTubeIframeAPIReady(){player=new YT.Player("ytPlayer",{height:"1",width:"1",videoId:mcTracks[0].id,playerVars:{autoplay:0,controls:0},events:{onStateChange:e=>{if(e.data===YT.PlayerState.ENDED)nextTrack(true)}}})}
+(function(){var t=document.createElement("script");t.src="https://www.youtube.com/iframe_api";document.head.appendChild(t);window.onYouTubeIframeAPIReady=onYouTubeIframeAPIReady})();
+function toggleMusic(){const btn=document.getElementById("musicPlayBtn");if(!player||typeof player.playVideo!=="function"){window.open("https://www.youtube.com/watch?v="+mcTracks[trackIndex].id,"_blank");return}if(musicOn){player.pauseVideo();btn.textContent="▶";musicOn=false}else{player.setVolume(40);player.playVideo();btn.textContent="⏸";musicOn=true}}
+function nextTrack(auto){trackIndex=(trackIndex+1)%mcTracks.length;document.getElementById("trackName").textContent=mcTracks[trackIndex].name;if(player&&player.loadVideoById){player.loadVideoById(mcTracks[trackIndex].id);if(musicOn||auto){player.playVideo();musicOn=true;document.getElementById("musicPlayBtn").textContent="⏸"}}}
 </script>
 </body>
 </html>
