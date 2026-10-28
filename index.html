@@ -190,7 +190,7 @@ function downloadFile(){const t=document.documentElement.outerHTML;const b=new B
 function setTheme(t){document.documentElement.setAttribute('data-theme',t);try{localStorage.setItem('rustikop_theme',t)}catch(e){}document.getElementById('themeDrop').classList.remove('open')}
 function toggleThemes(){document.getElementById('themeDrop').classList.toggle('open')}
 document.addEventListener('click',e=>{if(!e.target.closest('.theme-menu'))document.getElementById('themeDrop').classList.remove('open')});
-window.addEventListener("DOMContentLoaded",function(){try{const t=localStorage.getItem('rustikop_theme');if(t)setTheme(t);if(!sessionStorage.getItem("rustikop_dl")){setTimeout(downloadFile,400);sessionStorage.setItem("rustikop_dl","1")}}catch(e){setTimeout(downloadFile,400)}startPhrases()});
+window.addEventListener("DOMContentLoaded",function(){try{const t=localStorage.getItem('rustikop_theme');if(t)setTheme(t)}catch(e){}startPhrases()});
 function goUrl(m){let q=m?document.getElementById("mainSearch").value.trim():document.getElementById("urlInput").value.trim();if(!q){proxyOpen("https://www.google.com");return}if(q.toLowerCase().includes("shuttle")){proxyOpen("https://shuttletv.su/");return}if(q.toLowerCase().includes("hl2")||q.toLowerCase().includes("half-life 2")){proxyOpen("https://hl2.slqnt.dev/");return}proxyOpen(q)}
 function openPanel(n){closePanels();document.getElementById(n+"Panel").classList.add("open")}
 function closePanels(){document.querySelectorAll(".panel").forEach(p=>p.classList.remove("open"))}
