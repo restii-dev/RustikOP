@@ -15,7 +15,7 @@ body{font-family:var(--font);min-height:100vh;background:var(--bg);color:var(--t
 .bg-overlay{position:fixed;inset:0;z-index:1;background:var(--overlay);opacity:.9;pointer-events:none}
 [data-theme="brutalist"] .bg-overlay{display:none}
 #app{display:flex;position:relative;z-index:10;height:100vh;flex-direction:column}
-.topbar{display:flex;align-items:center;gap:8px;height:48px;padding:0 12px;background:var(--bar);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.topbar{display:flex;align-items:center;gap:8px;height:48px;padding:0 12px;background:var(--bar);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);z-index:40}
 [data-theme="brutalist"] .topbar{border-bottom:3px solid #fff;backdrop-filter:none}
 .nav-btns{display:flex;gap:4px}
 .nav-btns button{width:32px;height:32px;border-radius:var(--radius);border:none;background:transparent;color:var(--muted);cursor:pointer;font-size:1rem}
@@ -27,8 +27,8 @@ body{font-family:var(--font);min-height:100vh;background:var(--bg);color:var(--t
 .top-right{margin-left:auto;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
 .top-right a,.top-right button,.theme-btn,.proxy-sel{padding:6px 10px;border-radius:999px;border:1px solid var(--border);background:var(--bg2);color:var(--text);font-size:.78rem;text-decoration:none;cursor:pointer;font-weight:500;font-family:var(--font)}
 [data-theme="brutalist"] .top-right a,[data-theme="brutalist"] .top-right button,[data-theme="brutalist"] .theme-btn,[data-theme="brutalist"] .proxy-sel{border-radius:0;border:2px solid #fff}
-.proxy-sel{appearance:none;padding-right:22px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23b89b7a'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center}
-.theme-menu,.proxy-menu{position:relative}
+.proxy-sel{appearance:none;max-width:130px}
+.theme-menu{position:relative}
 .theme-dropdown{display:none;position:absolute;right:0;top:110%;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);min-width:160px;overflow:hidden;z-index:100;box-shadow:0 8px 24px rgba(0,0,0,.25)}
 .theme-dropdown.open{display:block}
 .theme-dropdown button{display:block;width:100%;text-align:left;padding:10px 14px;border:none;background:transparent;color:var(--text);cursor:pointer;font-family:var(--font);font-size:.85rem}
@@ -53,7 +53,7 @@ body{font-family:var(--font);min-height:100vh;background:var(--bg);color:var(--t
 [data-theme="brutalist"] .shortcut .icon{border-radius:0;border:2px solid #fff;box-shadow:4px 4px 0 #fff}
 .shortcut:hover .icon{transform:translateY(-3px)}
 .shortcut span{font-size:.72rem;font-weight:500;color:var(--muted)}
-.bottom{position:absolute;bottom:20px;left:0;right:0;display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap}
+.bottom{position:absolute;bottom:20px;left:0;right:0;display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap;z-index:15}
 .online{background:var(--bg2);border:1px solid var(--border);border-radius:999px;padding:6px 14px;font-size:.8rem;color:var(--muted)}
 .online::before{content:'';display:inline-block;width:7px;height:7px;background:#6abf4b;border-radius:50%;margin-right:6px}
 .hate{background:var(--hate-bg);border:1px solid var(--accent);border-radius:999px;padding:6px 14px;font-size:.8rem;font-weight:600;color:var(--hate)}
@@ -77,6 +77,11 @@ body{font-family:var(--font);min-height:100vh;background:var(--bg);color:var(--t
 .music-player .next{background:transparent;border:none;color:var(--muted);font-size:1.1rem;cursor:pointer;padding:4px}
 .panic{position:fixed;top:56px;right:12px;z-index:60;background:#c0392b;color:#fff;border:none;border-radius:var(--radius);padding:8px 14px;font-weight:700;font-size:.8rem;cursor:pointer;font-family:var(--font);box-shadow:0 4px 14px rgba(192,57,43,.4)}
 [data-theme="brutalist"] .panic{border-radius:0;border:2px solid #fff}
+#browserView{display:none;position:fixed;inset:48px 0 0 56px;z-index:35;background:var(--bg);flex-direction:column}
+#browserView.open{display:flex}
+#browserView .bbar{display:flex;gap:8px;padding:8px 12px;background:var(--bar);border-bottom:1px solid var(--border);align-items:center}
+#browserView .bbar input{flex:1;padding:8px 12px;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg2);color:var(--text);font-family:var(--font);font-size:.9rem}
+#browserView iframe{flex:1;width:100%;border:none;background:#fff}
 </style>
 </head>
 <body>
@@ -85,13 +90,14 @@ body{font-family:var(--font);min-height:100vh;background:var(--bg);color:var(--t
 <div id="app">
 <div class="topbar">
 <div class="nav-btns"><button onclick="history.back()">←</button><button onclick="history.forward()">→</button><button onclick="location.reload()">↻</button></div>
-<div class="url-bar"><input type="text" id="urlInput" placeholder="Search or URL (proxied)..." onkeydown="if(event.key==='Enter')goUrl()"><button class="go" onclick="goUrl()">Go</button></div>
+<div class="url-bar"><input type="text" id="urlInput" placeholder="Type a site — opens THROUGH the proxy" onkeydown="if(event.key==='Enter')goUrl()"><button class="go" onclick="goUrl()">Go</button></div>
 <div class="top-right">
 <select class="proxy-sel" id="proxySelect" onchange="saveProxy()" title="Active proxy">
 <option value="croxy">CroxyProxy</option>
-<option value="hide">Hide.me</option>
 <option value="four">4everproxy</option>
-<option value="direct">Direct (no proxy)</option>
+<option value="hide">Hide.me</option>
+<option value="scramjet">Scramjet</option>
+<option value="direct">Direct</option>
 </select>
 <div class="theme-menu">
 <button class="theme-btn" onclick="toggleThemes()">Themes ▾</button>
@@ -106,15 +112,15 @@ body{font-family:var(--font);min-height:100vh;background:var(--bg);color:var(--t
 </div>
 </div>
 <div class="sidebar">
-<button class="active" onclick="closePanels()" title="Home">⌂</button>
+<button class="active" id="navHome" onclick="showHome()" title="Home">⌂</button>
 <button onclick="openPanel('games')" title="Games">🎮</button>
 <button onclick="openPanel('proxies')" title="Proxies">🔒</button>
 <button onclick="openPanel('vpn')" title="VPN">🛡</button>
 <button onclick="openPanel('tools')" title="Tools">⚙</button>
 </div>
-<div class="center">
+<div class="center" id="homeCenter">
 <div class="logo-row"><div class="logo-mark">R</div><div class="logo-text">RustikOP</div></div>
-<div class="search-big"><input type="text" id="mainSearch" placeholder="Empty + Enter = about:blank" onkeydown="if(event.key==='Enter')goUrl(true)"><button onclick="goUrl(true)">→</button></div>
+<div class="search-big"><input type="text" id="mainSearch" placeholder="Site or search — loads via proxy" onkeydown="if(event.key==='Enter')goUrl(true)"><button onclick="goUrl(true)">→</button></div>
 <div class="shortcuts">
 <a class="shortcut" href="#" onclick="proxyOpen('https://hl2.slqnt.dev/');return false"><div class="icon">λ2</div><span>HL2 Port</span></a>
 <a class="shortcut" href="#" onclick="proxyOpen('https://www.inxanitylabs.com/games/half-life');return false"><div class="icon">λ</div><span>Half-Life</span></a>
@@ -135,7 +141,7 @@ body{font-family:var(--font);min-height:100vh;background:var(--bg);color:var(--t
 <div class="phrase" id="phrase">yo bro put on dat losercore playlist</div>
 </div>
 
-<div class="panel" id="gamesPanel"><button class="close-panel" onclick="closePanels()">Close</button><h2>Browser Ports & Games</h2><p class="sub">All open through your selected proxy</p><div class="panel-grid">
+<div class="panel" id="gamesPanel"><button class="close-panel" onclick="closePanels()">Close</button><h2>Browser Ports & Games</h2><p class="sub">Opens through your selected proxy (not just the proxy homepage)</p><div class="panel-grid">
 <a href="#" onclick="proxyOpen('https://hl2.slqnt.dev/');return false">Half-Life 2 (Browser)</a>
 <a href="#" onclick="proxyOpen('https://www.inxanitylabs.com/games/half-life');return false">Half-Life 1</a>
 <a href="#" onclick="proxyOpen('https://x8bitrain.github.io/webXash/');return false">WebXash HL1 / CS</a>
@@ -143,68 +149,123 @@ body{font-family:var(--font);min-height:100vh;background:var(--bg);color:var(--t
 <a href="#" onclick="proxyOpen('https://1v1.lol/');return false">1v1.LOL</a>
 <a href="#" onclick="proxyOpen('https://shellshock.io/');return false">Shell Shockers</a>
 <a href="#" onclick="proxyOpen('https://krunker.io/');return false">Krunker</a>
-<a href="#" onclick="proxyOpen('https://slopegame.io/');return false">Slope</a>
 <a href="#" onclick="proxyOpen('https://play.geforcenow.com/');return false">GeForce Now</a>
 <a href="#" onclick="proxyOpen('https://www.xbox.com/play');return false">Xbox Cloud</a>
 <a href="#" onclick="proxyOpen('https://www.xbox.com/play/games/red-dead-redemption');return false">RDR1 Cloud</a>
 <a href="#" onclick="proxyOpen('https://www.xbox.com/en-US/games/store/grand-theft-auto-v/BPJ686W6S0NH');return false">GTA V Cloud</a>
 <a href="#" onclick="proxyOpen('https://now.gg/apps/roblox-corporation/5349/roblox.html');return false">Roblox</a>
 <a href="#" onclick="proxyOpen('https://shuttletv.su/');return false">ShuttleTV</a>
-<a href="#" onclick="proxyOpen('https://poki.com/');return false">Poki</a>
 </div></div>
 
-<div class="panel" id="proxiesPanel"><button class="close-panel" onclick="closePanels()">Close</button><h2>Proxies</h2><p class="sub">Pick one in the top bar — links use that proxy</p><div class="panel-grid">
-<button class="card" onclick="setProxy('croxy')">CroxyProxy ✓</button>
+<div class="panel" id="proxiesPanel"><button class="close-panel" onclick="closePanels()">Close</button><h2>Proxies</h2><p class="sub">Croxy &amp; 4ever auto-submit so the site loads inside the proxy</p><div class="panel-grid">
+<button class="card" onclick="setProxy('croxy')">CroxyProxy (form submit)</button>
+<button class="card" onclick="setProxy('four')">4everproxy (direct link)</button>
 <button class="card" onclick="setProxy('hide')">Hide.me</button>
-<button class="card" onclick="setProxy('four')">4everproxy</button>
+<button class="card" onclick="setProxy('scramjet')">Scramjet (epose)</button>
 <button class="card" onclick="setProxy('direct')">Direct (no proxy)</button>
-<a href="#" onclick="window.open('https://www.croxyproxy.com/','_blank');return false">Open Croxy site</a>
-<a href="#" onclick="window.open('https://hide.me/en/proxy','_blank');return false">Open Hide.me</a>
-<a href="#" onclick="window.open('https://www.4everproxy.com/','_blank');return false">Open 4everproxy</a>
 </div></div>
 
-<div class="panel" id="vpnPanel"><button class="close-panel" onclick="closePanels()">Close</button><h2>VPN</h2><p class="sub">Browser / free VPN options (accounts may be required)</p><div class="panel-grid">
+<div class="panel" id="vpnPanel"><button class="close-panel" onclick="closePanels()">Close</button><h2>VPN</h2><p class="sub">Browser / free VPN options</p><div class="panel-grid">
 <a href="#" onclick="proxyOpen('https://browserleaks.com/ip');return false">Check IP / leaks</a>
 <a href="#" onclick="proxyOpen('https://protonvpn.com/free-vpn');return false">Proton VPN Free</a>
 <a href="#" onclick="proxyOpen('https://www.urban-vpn.com/');return false">Urban VPN</a>
 <a href="#" onclick="proxyOpen('https://browsec.com/');return false">Browsec VPN</a>
 <a href="#" onclick="proxyOpen('https://windscribe.com/');return false">Windscribe</a>
-<a href="#" onclick="proxyOpen('https://www.tunnelbear.com/');return false">TunnelBear</a>
-<a href="#" onclick="proxyOpen('https://mullvad.net/');return false">Mullvad</a>
 <a href="#" onclick="proxyOpen('https://10.0.1.3/');return false">1.1.1.1 / WARP</a>
 <a href="#" onclick="proxyOpen('https://psiphon.ca/');return false">Psiphon</a>
-<a href="#" onclick="proxyOpen('https://www.hotspotshield.com/');return false">Hotspot Shield</a>
 </div></div>
 
-<div class="panel" id="toolsPanel"><button class="close-panel" onclick="closePanels()">Close</button><h2>Tools</h2><p class="sub">Extra features</p><div class="panel-grid">
+<div class="panel" id="toolsPanel"><button class="close-panel" onclick="closePanels()">Close</button><h2>Tools</h2><div class="panel-grid">
 <button class="card" onclick="openAboutBlank()">Open in about:blank</button>
-<button class="card" onclick="panic()">Panic — leave now</button>
-<button class="card" onclick="downloadFile()">Download RustikOP.html</button>
+<button class="card" onclick="panic()">Panic — Classroom</button>
+<button class="card" onclick="downloadFile()">Download HTML</button>
 <button class="card" onclick="setTheme('rusty')">Theme: Rusty</button>
 <button class="card" onclick="setTheme('aero')">Theme: Frutiger Aero</button>
 <button class="card" onclick="setTheme('brutalist')">Theme: Brutalist</button>
-<a href="#" onclick="proxyOpen('https://www.google.com/');return false">Google (proxied)</a>
-<a href="#" onclick="proxyOpen('https://www.youtube.com/');return false">YouTube (proxied)</a>
-<a href="#" onclick="proxyOpen('https://discord.com/app');return false">Discord (proxied)</a>
 </div></div>
+</div>
+
+<!-- In-hub browser (used when proxy allows framing; else new tab via form) -->
+<div id="browserView">
+  <div class="bbar">
+    <button class="theme-btn" onclick="showHome()">← Hub</button>
+    <input type="text" id="browserUrl" readonly>
+    <button class="theme-btn" onclick="document.getElementById('browserFrame').src=document.getElementById('browserFrame').src">↻</button>
+  </div>
+  <iframe id="browserFrame" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>
 </div>
 
 <div class="music-player"><button class="play" id="musicPlayBtn" onclick="toggleMusic()">▶</button><div class="music-info"><div class="track" id="trackName">Sweden</div><div class="album">Minecraft · Volume Alpha · C418</div></div><button class="next" onclick="nextTrack()">⏭</button></div>
 <div id="ytPlayer" style="position:fixed;width:1px;height:1px;opacity:0;pointer-events:none"></div>
 
 <script>
-const PROXIES={
-  croxy:u=>"https://www.croxyproxy.com/?q="+encodeURIComponent(u),
-  hide:u=>"https://hide.me/en/proxy?u="+encodeURIComponent(u),
-  four:u=>"https://www.4everproxy.com/goto/"+encodeURIComponent(u),
-  direct:u=>u
-};
 function currentProxy(){try{return localStorage.getItem('rustikop_proxy')||'croxy'}catch(e){return 'croxy'}}
 function saveProxy(){const v=document.getElementById('proxySelect').value;try{localStorage.setItem('rustikop_proxy',v)}catch(e){}updateProxyLabel()}
 function setProxy(id){try{localStorage.setItem('rustikop_proxy',id)}catch(e){}const s=document.getElementById('proxySelect');if(s)s.value=id;updateProxyLabel();closePanels()}
 function updateProxyLabel(){const el=document.getElementById('proxyLabel');if(el)el.textContent='proxy · '+currentProxy()}
-function toProxy(url){if(!url)url='https://www.google.com';url=url.trim();if(!/^https?:\/\//i.test(url)){if(url.includes('.')&&!url.includes(' '))url='https://'+url;else url='https://www.google.com/search?q='+encodeURIComponent(url)}const fn=PROXIES[currentProxy()]||PROXIES.croxy;return fn(url)}
-function proxyOpen(url){window.open(toProxy(url),'_blank')}
+
+function normalizeUrl(url){
+  if(!url)return 'https://www.google.com';
+  url=url.trim();
+  if(!/^https?:\/\//i.test(url)){
+    if(url.includes('.')&&!url.includes(' '))url='https://'+url;
+    else url='https://www.google.com/search?q='+encodeURIComponent(url);
+  }
+  return url;
+}
+
+// Actually submit into the proxy so the TARGET site loads (not just the proxy homepage)
+function proxyOpen(raw){
+  const url=normalizeUrl(raw);
+  const mode=currentProxy();
+
+  if(mode==='direct'){
+    window.open(url,'_blank');
+    return;
+  }
+
+  if(mode==='scramjet'){
+    window.open('https://restii-dev.github.io/epose/#/'+encodeURIComponent(url),'_blank');
+    return;
+  }
+
+  if(mode==='four'){
+    // 4everproxy permanent/direct style (base64)
+    const b64=btoa(unescape(encodeURIComponent(url))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+    window.open('https://www.4everproxy.com/direct/'+b64,'_blank');
+    return;
+  }
+
+  if(mode==='hide'){
+    // Hide.me — open with url query (best-effort)
+    window.open('https://hide.me/en/proxy?u='+encodeURIComponent(url),'_blank');
+    return;
+  }
+
+  // CroxyProxy — auto POST so the site loads inside Croxy
+  const f=document.createElement('form');
+  f.method='POST';
+  f.action='https://www.croxyproxy.com/servers';
+  f.target='_blank';
+  f.style.display='none';
+  const inp=document.createElement('input');
+  inp.name='url';
+  inp.value=url;
+  f.appendChild(inp);
+  // some croxy endpoints also accept GET
+  const g=document.createElement('input');
+  g.name='demo';
+  g.value='0';
+  f.appendChild(g);
+  document.body.appendChild(f);
+  try{
+    f.submit();
+  }catch(e){
+    window.open('https://www.croxyproxy.com/go/request?q='+encodeURIComponent(url),'_blank');
+  }
+  setTimeout(()=>f.remove(),500);
+}
+
 function openAboutBlank(){const w=window.open('about:blank','_blank');if(!w)return;w.document.open();w.document.write(document.documentElement.outerHTML);w.document.close();try{w.document.title='New Tab'}catch(e){}}
 function panic(){location.replace('https://classroom.google.com/')}
 function downloadFile(){const t=document.documentElement.outerHTML;const b=new Blob([t],{type:'text/html'});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download='RustikOP.html';document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(u)}
@@ -215,7 +276,8 @@ window.addEventListener('DOMContentLoaded',function(){try{const t=localStorage.g
 function goUrl(m){let q=m?document.getElementById('mainSearch').value.trim():document.getElementById('urlInput').value.trim();if(!q){window.open('about:blank','_blank');return}if(q.toLowerCase().includes('shuttle')){proxyOpen('https://shuttletv.su/');return}if(q.toLowerCase().includes('hl2')||q.toLowerCase().includes('half-life 2')){proxyOpen('https://hl2.slqnt.dev/');return}proxyOpen(q)}
 function openPanel(n){closePanels();document.getElementById(n+'Panel').classList.add('open')}
 function closePanels(){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('open'))}
-const phrases=['yo bro put on dat losercore playlist','me and my homies hate ridgeland securly','switch the proxy if one dies','vpn mode activated','panic button goes to classroom','scramjet who','rustikop supremacy','stay cozy out there king'];
+function showHome(){closePanels();document.getElementById('browserView').classList.remove('open');document.getElementById('homeCenter').style.display='';document.querySelectorAll('.sidebar button').forEach(b=>b.classList.remove('active'));document.getElementById('navHome').classList.add('active')}
+const phrases=['yo bro put on dat losercore playlist','me and my homies hate ridgeland securly','proxy form submit hits different','switch proxy if one dies','panic button goes to classroom','rustikop supremacy','stay cozy out there king'];
 function randomPhrase(){const el=document.getElementById('phrase');el.style.opacity='0';setTimeout(()=>{el.textContent=phrases[Math.floor(Math.random()*phrases.length)];el.style.opacity='1'},250)}
 function startPhrases(){setInterval(randomPhrase,11000);randomPhrase()}
 const mcTracks=[{name:'Sweden',id:'aQkgUkkUads'},{name:'Wet Hands',id:'mJhZpYOlM0A'},{name:'Mice on Venus',id:'hZWV7RmR2uM'},{name:'Minecraft',id:'Dg0IjOzopYU'},{name:'Haggstrom',id:'5y2a0Yx5kyA'},{name:'Subwoofer Lullaby',id:'v-_o4nlqyE8'}];
