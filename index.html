@@ -115,7 +115,7 @@ body{font-family:var(--font);min-height:100vh;background:var(--bg);color:var(--t
 <div id="app">
 <div class="topbar">
 <div class="nav-btns"><button>←</button><button>→</button><button>↻</button></div>
-<div class="url-bar"><input type="text" id="urlInput" placeholder="Search or enter URL (proxied)..."><button class="go" onclick="goUrl()">Go</button></div>
+<div class="url-bar"><input type="text" id="urlInput" placeholder="Search or enter URL (proxied)..." onkeydown="if(event.key==='Enter')goUrl()"><button class="go" onclick="goUrl()">Go</button></div>
 <div class="top-right">
 <div class="theme-menu">
 <button class="theme-btn" onclick="toggleThemes()">Themes ▾</button>
@@ -126,7 +126,8 @@ body{font-family:var(--font);min-height:100vh;background:var(--bg);color:var(--t
 </div>
 </div>
 <a href="#" onclick="proxyOpen('https://restii-dev.github.io/epose/');return false">Scramjet</a>
-<button onclick="downloadFile()">Download</button>
+<button onclick="openAboutBlank()" title="Open cloaked in about:blank">about:blank</button>
+<button onclick="downloadFile()" title="Download HTML">↓</button>
 </div>
 </div>
 <div class="sidebar">
@@ -138,7 +139,7 @@ body{font-family:var(--font);min-height:100vh;background:var(--bg);color:var(--t
 </div>
 <div class="center">
 <div class="logo-row"><div class="logo-mark">R</div><div class="logo-text">RustikOP</div></div>
-<div class="search-big"><input type="text" id="mainSearch" placeholder="Search or URL — opens via proxy" onkeydown="if(event.key==='Enter')goUrl(true)"><button onclick="goUrl(true)">→</button></div>
+<div class="search-big"><input type="text" id="mainSearch" placeholder="Empty + Enter = about:blank" onkeydown="if(event.key==='Enter')goUrl(true)"><button onclick="goUrl(true)">→</button></div>
 <div class="shortcuts">
 <a class="shortcut" href="#" onclick="proxyOpen('https://hl2.slqnt.dev/');return false"><div class="icon">λ2</div><span>HL2 Port</span></a>
 <a class="shortcut" href="#" onclick="proxyOpen('https://www.inxanitylabs.com/games/half-life');return false"><div class="icon">λ</div><span>Half-Life</span></a>
@@ -186,6 +187,7 @@ body{font-family:var(--font);min-height:100vh;background:var(--bg);color:var(--t
 const PROXY_BASE="https://restii-dev.github.io/epose/";
 function toProxy(url){if(!url)return PROXY_BASE;url=url.trim();if(!/^https?:\/\//i.test(url)){if(url.includes('.')&&!url.includes(' '))url='https://'+url;else url='https://www.google.com/search?q='+encodeURIComponent(url)}return PROXY_BASE+"#/"+encodeURIComponent(url)}
 function proxyOpen(url){window.open(toProxy(url),"_blank")}
+function openAboutBlank(){const w=window.open("about:blank","_blank");if(!w)return;const html=document.documentElement.outerHTML;w.document.open();w.document.write(html);w.document.close();try{w.document.title="New Tab"}catch(e){}}
 function downloadFile(){const t=document.documentElement.outerHTML;const b=new Blob([t],{type:"text/html"});const u=URL.createObjectURL(b);const a=document.createElement("a");a.href=u;a.download="RustikOP.html";document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(u)}
 function setTheme(t){document.documentElement.setAttribute('data-theme',t);try{localStorage.setItem('rustikop_theme',t)}catch(e){}document.getElementById('themeDrop').classList.remove('open')}
 function toggleThemes(){document.getElementById('themeDrop').classList.toggle('open')}
