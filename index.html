@@ -1,1 +1,235 @@
-TEMP
+<!DOCTYPE html>
+<html lang="en" data-theme="rusty">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RustikOP</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23fff'/%3E%3Ccircle cx='22' cy='26' r='4' fill='%23000'/%3E%3Ccircle cx='42' cy='26' r='4' fill='%23000'/%3E%3Cpath d='M24 42 Q32 48 40 42' stroke='%23000' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root,[data-theme="rusty"]{--bg:#2a211c;--bg2:#322820;--text:#e8d5c0;--muted:#b89b7a;--accent:#c45c26;--panel:rgba(31,24,20,.98);--bar:rgba(40,30,24,.92);--border:rgba(196,92,38,.28);--hate-bg:rgba(80,40,30,.9);--hate:#e8a090;--radius:12px;--font:Inter,system-ui,sans-serif;--logo:linear-gradient(135deg,#d4692a,#9c3f12)}
+[data-theme="aero"]{--bg:#a8d4f0;--bg2:rgba(255,255,255,.55);--text:#1a3a5c;--muted:#3d6a8a;--accent:#3b9eff;--panel:rgba(255,255,255,.85);--bar:rgba(255,255,255,.75);--border:rgba(255,255,255,.85);--hate-bg:rgba(255,180,100,.85);--hate:#8b4513;--radius:18px;--logo:linear-gradient(180deg,#7ec8ff,#1e6fd4)}
+[data-theme="brutalist"]{--bg:#111;--bg2:#000;--text:#fff;--muted:#aaa;--accent:#fff;--panel:#000;--bar:#000;--border:#fff;--hate-bg:#ff0;--hate:#000;--radius:0;--font:'IBM Plex Mono',monospace;--logo:#fff}
+[data-theme="win98"]{--bg:#008080;--bg2:#c0c0c0;--text:#000;--muted:#404040;--accent:#000080;--panel:#c0c0c0;--bar:#c0c0c0;--border:#000;--hate-bg:#ffff00;--hate:#000;--radius:0;--font:Tahoma,"MS Sans Serif",sans-serif;--logo:#c0c0c0}
+[data-theme="xp"]{--bg:#3a6ea5;--bg2:#ece9d8;--text:#000;--muted:#555;--accent:#0a246a;--panel:#ece9d8;--bar:#3a6ea5;--border:#0055ea;--hate-bg:#f9e07a;--hate:#000;--radius:6px;--font:Tahoma,Verdana,sans-serif;--logo:#ece9d8}
+[data-theme="place"]{--bg:#c4b896;--bg2:#b8a878;--text:#3a3520;--muted:#5c5438;--accent:#8b7355;--panel:rgba(196,184,150,.95);--bar:rgba(184,168,120,.95);--border:#8b7355;--hate-bg:#6b5b3a;--hate:#e8dcc0;--radius:2px;--font:Georgia,"Times New Roman",serif;--logo:#a09070}
+html,body{height:100%;overflow:hidden}
+body{font-family:var(--font);background:var(--bg);color:var(--text)}
+#app{display:flex;flex-direction:column;height:100vh}
+.topbar{display:flex;align-items:center;gap:8px;height:48px;padding:0 10px;background:var(--bar);border-bottom:1px solid var(--border);flex-shrink:0;z-index:50}
+.nav-btns{display:flex;gap:2px}
+.nav-btns button{width:34px;height:34px;border:none;background:transparent;color:var(--muted);cursor:pointer;font-size:1rem;border-radius:var(--radius)}
+.nav-btns button:hover{background:var(--bg2);color:var(--text)}
+.url-bar{flex:1;display:flex;gap:8px;align-items:center;background:var(--bg2);border:1px solid var(--border);border-radius:999px;padding:6px 12px;max-width:720px}
+.url-bar input{flex:1;border:none;outline:none;background:transparent;font-size:.9rem;color:var(--text);font-family:var(--font)}
+.url-bar .go{background:var(--accent);color:#fff;border:none;border-radius:999px;padding:5px 14px;font-weight:600;font-size:.8rem;cursor:pointer;font-family:var(--font)}
+.top-right{margin-left:auto;display:flex;gap:6px;align-items:center}
+.top-right button,.proxy-sel{padding:6px 10px;border-radius:999px;border:1px solid var(--border);background:var(--bg2);color:var(--text);font-size:.75rem;cursor:pointer;font-family:var(--font)}
+.theme-menu{position:relative}
+.theme-dropdown{display:none;position:absolute;right:0;top:110%;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);min-width:190px;z-index:80}
+.theme-dropdown.open{display:block}
+.theme-dropdown button{display:block;width:100%;text-align:left;padding:10px 12px;border:none;background:transparent;color:var(--text);cursor:pointer;font-family:var(--font);font-size:.85rem}
+.theme-dropdown button:hover{background:var(--bg2)}
+.body-row{flex:1;display:flex;min-height:0}
+.sidebar{width:56px;background:var(--bar);border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;padding-top:10px;gap:6px;flex-shrink:0}
+.sidebar button{width:40px;height:40px;border-radius:var(--radius);border:none;background:transparent;color:var(--muted);cursor:pointer;font-size:1.1rem}
+.sidebar button:hover,.sidebar button.active{background:var(--bg2);color:var(--text)}
+.main{flex:1;display:flex;flex-direction:column;min-width:0;position:relative}
+.home{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 60px;text-align:center;overflow-y:auto}
+.home.hidden{display:none}
+.logo-row{display:flex;align-items:center;gap:12px;margin-bottom:20px;position:relative}
+.logo-mark{width:48px;height:48px;border-radius:50%;background:var(--logo);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.logo-mark img{width:100%;height:100%;object-fit:contain;image-rendering:pixelated}
+.logo-text{font-size:2.4rem;font-weight:700}
+.clock{font-size:.9rem;color:var(--muted);margin-bottom:18px}
+.search-big{width:100%;max-width:540px;display:flex;gap:8px;background:var(--bg2);border:1.5px solid var(--border);border-radius:999px;padding:12px 18px;margin-bottom:22px}
+.search-big input{flex:1;border:none;outline:none;background:transparent;font-size:1.05rem;color:var(--text);font-family:var(--font)}
+.search-big button{border:none;background:transparent;color:var(--accent);font-size:1.2rem;cursor:pointer}
+.shortcuts{display:flex;flex-wrap:wrap;gap:12px 14px;justify-content:center;max-width:720px;margin-bottom:18px}
+.shortcut{display:flex;flex-direction:column;align-items:center;gap:6px;width:72px;cursor:pointer;color:var(--text);border:none;background:none;font-family:var(--font)}
+.shortcut .icon{width:54px;height:54px;border-radius:50%;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.15rem;transition:transform .12s}
+.shortcut:hover .icon{transform:translateY(-3px)}
+.shortcut span{font-size:.68rem;color:var(--muted)}
+.footer-chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:8px}
+.chip{background:var(--bg2);border:1px solid var(--border);border-radius:999px;padding:5px 12px;font-size:.75rem;color:var(--muted)}
+.chip.hate{background:var(--hate-bg);border-color:var(--accent);color:var(--hate);font-weight:600}
+.browser{display:none;flex:1;flex-direction:column;min-height:0}
+.browser.open{display:flex}
+#view{flex:1;width:100%;border:none;background:#0d0a08;min-height:0}
+.panel{display:none;position:absolute;inset:0;z-index:40;background:var(--panel);overflow-y:auto;padding:24px}
+.panel.open{display:block}
+.panel h2{font-size:1.3rem;margin-bottom:6px}
+.panel .sub{font-size:.82rem;color:var(--muted);margin-bottom:14px}
+.panel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.panel a,.panel button.card{display:block;padding:12px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-weight:500;font-size:.85rem;cursor:pointer;font-family:var(--font);text-align:left;width:100%}
+.close-panel{float:right;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:8px 14px;cursor:pointer;color:var(--text);font-family:var(--font)}
+.music{position:fixed;bottom:14px;right:14px;z-index:60;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:8px 12px;display:flex;align-items:center;gap:8px}
+.music .play{width:36px;height:36px;border-radius:50%;border:none;background:var(--logo);color:#fff;cursor:pointer}
+.music .meta .t{font-size:.78rem;font-weight:600}
+.music .meta .a{font-size:.65rem;color:var(--muted)}
+.music .next{border:none;background:transparent;color:var(--muted);cursor:pointer}
+.panic{position:fixed;top:54px;right:10px;z-index:70;background:#c0392b;color:#fff;border:none;border-radius:var(--radius);padding:7px 12px;font-weight:700;font-size:.75rem;cursor:pointer;font-family:var(--font)}
+.status-bar{height:22px;background:var(--bar);border-top:1px solid var(--border);display:flex;align-items:center;padding:0 12px;font-size:.7rem;color:var(--muted);flex-shrink:0;gap:12px}
+.status-bar .dot{width:6px;height:6px;border-radius:50%;background:#6abf4b;display:inline-block;margin-right:4px}
+/* Win98 */
+[data-theme="win98"] body{background:#008080}
+[data-theme="win98"] .topbar,[data-theme="win98"] .sidebar,[data-theme="win98"] .status-bar{background:#c0c0c0;box-shadow:inset -1px -1px #000,inset 1px 1px #fff}
+[data-theme="win98"] .url-bar,[data-theme="win98"] .search-big,[data-theme="win98"] .shortcut .icon,[data-theme="win98"] .panel button.card,[data-theme="win98"] .chip,[data-theme="win98"] .url-bar .go,[data-theme="win98"] .top-right button,[data-theme="win98"] .proxy-sel,[data-theme="win98"] .panic,[data-theme="win98"] .music{background:#c0c0c0;color:#000;border:2px solid;border-color:#fff #000 #000 #fff;border-radius:0}
+[data-theme="win98"] .logo-mark{border-radius:0;border:2px solid;border-color:#fff #000 #000 #fff;background:#fff}
+[data-theme="win98"] .music .play{border-radius:0;background:#c0c0c0;color:#000;border:2px solid;border-color:#fff #000 #000 #fff}
+/* XP */
+[data-theme="xp"] body{background:linear-gradient(180deg,#7db2e5 0%,#3a6ea5 45%,#24518f 100%)}
+[data-theme="xp"] .topbar{background:linear-gradient(180deg,#0058e6,#3a6ea5);border-bottom:1px solid #003c9c}
+[data-theme="xp"] .topbar .nav-btns button{color:#fff}
+[data-theme="xp"] .top-right button,[data-theme="xp"] .proxy-sel{color:#000;background:linear-gradient(180deg,#fff,#ece9d8);border:1px solid #003c9c;border-radius:4px}
+[data-theme="xp"] .sidebar{background:linear-gradient(180deg,#d6e8fb,#aec9f0)}
+[data-theme="xp"] .url-bar,[data-theme="xp"] .search-big{background:#fff;border:1px solid #7f9db9;border-radius:4px}
+[data-theme="xp"] .url-bar .go{background:linear-gradient(180deg,#fff,#d4d0c8);color:#000;border:1px solid #003c9c;border-radius:4px}
+[data-theme="xp"] .shortcut .icon{background:linear-gradient(180deg,#fff,#ece9d8);border:1px solid #3a6ea5;border-radius:8px;box-shadow:2px 2px 4px rgba(0,0,0,.2)}
+[data-theme="xp"] .logo-mark{border-radius:8px;border:2px solid #fff;box-shadow:2px 2px 6px rgba(0,0,0,.3);background:#fff}
+[data-theme="xp"] .panel{background:#ece9d8;border:2px solid #0058e6}
+[data-theme="xp"] .status-bar{background:#ece9d8}
+[data-theme="xp"] .panic{border-radius:4px}
+/* Place / Backrooms */
+[data-theme="place"] body{background-color:#c4b896;background-image:repeating-linear-gradient(0deg,transparent,transparent 31px,rgba(139,115,85,.25) 31px,rgba(139,115,85,.25) 32px),repeating-linear-gradient(90deg,transparent,transparent 31px,rgba(139,115,85,.25) 31px,rgba(139,115,85,.25) 32px),linear-gradient(180deg,#d4c8a8,#c4b896 40%,#b8a878)}
+[data-theme="place"] .topbar,[data-theme="place"] .sidebar,[data-theme="place"] .status-bar{background:rgba(184,168,120,.92);border-color:#8b7355}
+[data-theme="place"] .url-bar,[data-theme="place"] .search-big,[data-theme="place"] .shortcut .icon{background:#b8a878;border-color:#8b7355}
+[data-theme="place"] .logo-text{position:relative;font-size:2.6rem;letter-spacing:-.04em;text-shadow:2px 2px 0 rgba(90,80,50,.35)}
+[data-theme="place"] .logo-text::before{content:"RustikOP";position:absolute;left:8px;top:6px;color:rgba(90,80,50,.45);z-index:-1;clip-path:inset(0 20% 0 0)}
+[data-theme="place"] .logo-text::after{content:"RustikOP";position:absolute;left:-6px;top:-4px;color:rgba(196,184,150,.75);mix-blend-mode:multiply;clip-path:inset(30% 0 0 15%);pointer-events:none}
+[data-theme="place"] .logo-mark{border-radius:2px;border:1px solid #8b7355;background:#b8a878}
+[data-theme="place"] .home{background:transparent}
+[data-theme="place"] .chip.hate{background:#6b5b3a;color:#e8dcc0}
+[data-theme="brutalist"] .url-bar,[data-theme="brutalist"] .search-big,[data-theme="brutalist"] .shortcut .icon,[data-theme="brutalist"] .top-right button,[data-theme="brutalist"] .proxy-sel{border-radius:0;border:2px solid #fff}
+[data-theme="brutalist"] .logo-mark{border-radius:0;background:#fff;border:3px solid #fff}
+</style>
+</head>
+<body>
+<button class="panic" onclick="panic()">PANIC</button>
+<div id="app">
+  <div class="topbar">
+    <div class="nav-btns">
+      <button type="button" onclick="navBack()">←</button>
+      <button type="button" onclick="navForward()">→</button>
+      <button type="button" onclick="navReload()">↻</button>
+      <button type="button" onclick="showHome()">⌂</button>
+    </div>
+    <div class="url-bar">
+      <input type="text" id="urlInput" placeholder="Search or URL — loads inside the site" onkeydown="if(event.key==='Enter')goUrl()">
+      <button class="go" type="button" onclick="goUrl()">Go</button>
+    </div>
+    <div class="top-right">
+      <select class="proxy-sel" id="proxySelect" onchange="saveProxy()">
+        <option value="cf">Cloudflare</option>
+        <option value="direct">Direct</option>
+      </select>
+      <div class="theme-menu">
+        <button type="button" onclick="toggleThemes()">Themes ▾</button>
+        <div class="theme-dropdown" id="themeDrop">
+          <button type="button" onclick="setTheme('rusty')">🦀 Rusty</button>
+          <button type="button" onclick="setTheme('aero')">💎 Frutiger Aero</button>
+          <button type="button" onclick="setTheme('brutalist')">⬛ Brutalist</button>
+          <button type="button" onclick="setTheme('win98')">💾 Windows 98</button>
+          <button type="button" onclick="setTheme('xp')">🪟 Windows XP</button>
+          <button type="button" onclick="setTheme('place')">🟨 Place / Backrooms</button>
+        </div>
+      </div>
+      <button type="button" onclick="cloakTab()">about:blank</button>
+      <button type="button" onclick="downloadFile()">↓</button>
+    </div>
+  </div>
+  <div class="body-row">
+    <div class="sidebar">
+      <button type="button" class="active" id="navHome" onclick="showHome()">⌂</button>
+      <button type="button" onclick="openPanel('games')">🎮</button>
+      <button type="button" onclick="openPanel('hubs')">🔗</button>
+      <button type="button" onclick="openPanel('apps')">📱</button>
+      <button type="button" onclick="openPanel('tools')">⚙</button>
+    </div>
+    <div class="main">
+      <div class="home" id="home">
+        <div class="logo-row">
+          <div class="logo-mark"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23fff'/%3E%3Ccircle cx='22' cy='26' r='4.5' fill='%23000'/%3E%3Ccircle cx='42' cy='26' r='4.5' fill='%23000'/%3E%3Cpath d='M24 42 Q32 49 40 42' stroke='%23000' stroke-width='3.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" alt="logo"></div>
+          <div class="logo-text">RustikOP</div>
+        </div>
+        <div class="clock" id="clock">--:--</div>
+        <div class="search-big">
+          <input type="text" id="mainSearch" placeholder="Empty + Enter = blank · else opens inside" onkeydown="if(event.key==='Enter')goUrl(true)">
+          <button type="button" onclick="goUrl(true)">→</button>
+        </div>
+        <div class="shortcuts" id="shortcuts"></div>
+        <div class="footer-chips">
+          <span class="chip" id="proxyLabel"><span class="dot"></span>cloudflare · supercool</span>
+          <span class="chip hate">me and my homies hate ridgeland securly</span>
+          <span class="chip" id="phrase">yo bro put on dat losercore playlist</span>
+        </div>
+      </div>
+      <div class="browser" id="browser">
+        <iframe id="view" title="In-app browser" allow="fullscreen; gamepad; autoplay" allowfullscreen></iframe>
+      </div>
+      <div class="panel" id="gamesPanel"><button class="close-panel" type="button" onclick="closePanels()">Close</button><h2>Games</h2><p class="sub">Open inside the site</p><div class="panel-grid" id="gamesGrid"></div></div>
+      <div class="panel" id="hubsPanel"><button class="close-panel" type="button" onclick="closePanels()">Close</button><h2>Hubs</h2><p class="sub">Niigo recommended</p><div class="panel-grid" id="hubsGrid"></div></div>
+      <div class="panel" id="appsPanel"><button class="close-panel" type="button" onclick="closePanels()">Close</button><h2>Apps</h2><div class="panel-grid" id="appsGrid"></div></div>
+      <div class="panel" id="toolsPanel"><button class="close-panel" type="button" onclick="closePanels()">Close</button><h2>Tools</h2><div class="panel-grid">
+        <button class="card" type="button" onclick="showHome()">Home</button>
+        <button class="card" type="button" onclick="cloakTab()">Cloak about:blank</button>
+        <button class="card" type="button" onclick="panic()">Panic Classroom</button>
+        <button class="card" type="button" onclick="downloadFile()">Download HTML</button>
+        <button class="card" type="button" onclick="setTheme('rusty')">Rusty</button>
+        <button class="card" type="button" onclick="setTheme('aero')">Frutiger Aero</button>
+        <button class="card" type="button" onclick="setTheme('brutalist')">Brutalist</button>
+        <button class="card" type="button" onclick="setTheme('win98')">Windows 98</button>
+        <button class="card" type="button" onclick="setTheme('xp')">Windows XP</button>
+        <button class="card" type="button" onclick="setTheme('place')">Place / Backrooms</button>
+      </div></div>
+    </div>
+  </div>
+  <div class="status-bar"><span><span class="dot"></span><span id="statusText">ready</span></span><span id="statusUrl"></span></div>
+</div>
+<div class="music"><button class="play" id="musicPlayBtn" type="button" onclick="toggleMusic()">▶</button><div class="meta"><div class="t" id="trackName">Sweden</div><div class="a">Minecraft · Volume Alpha</div></div><button class="next" type="button" onclick="nextTrack()">⏭</button></div>
+<div id="ytPlayer" style="position:fixed;width:1px;height:1px;opacity:0;pointer-events:none"></div>
+<script>
+const CF_WORKER='https://supercool.unsamulige75.workers.dev';
+const LOGO_SRC="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23fff'%2F%3E%3Ccircle cx='22' cy='26' r='4.5' fill='%23000'%2F%3E%3Ccircle cx='42' cy='26' r='4.5' fill='%23000'%2F%3E%3Cpath d='M24 42 Q32 49 40 42' stroke='%23000' stroke-width='3.5' fill='none' stroke-linecap='round'%2F%3E%3C%2Fsvg%3E";
+const SHORTCUTS=[{name:'Niigo',icon:'⭐',url:'https://niigo.s3.amazonaws.com/index.html'},{name:'Bulltop',icon:'🐂',url:'https://bulltop.s3.amazonaws.com/index.html'},{name:'HL2',icon:'λ2',url:'https://hl2.slqnt.dev/'},{name:'Retro Bowl',icon:'🏈',url:'https://poki.com/en/g/retro-bowl'},{name:'1v1.LOL',icon:'🎯',url:'https://1v1.lol/'},{name:'Shell Shock',icon:'🥚',url:'https://shellshock.io/'},{name:'Krunker',icon:'🔫',url:'https://krunker.io/'},{name:'Roblox',icon:'🧱',url:'https://now.gg/apps/roblox-corporation/5349/roblox.html'},{name:'GeForce',icon:'☁️',url:'https://play.geforcenow.com/'},{name:'YouTube',icon:'▶️',url:'https://www.youtube.com/'},{name:'Discord',icon:'💬',url:'https://discord.com/app'},{name:'ShuttleTV',icon:'📺',url:'https://shuttletv.su/'}];
+const GAMES=[{name:'Niigo',url:'https://niigo.s3.amazonaws.com/index.html'},{name:'HL2 Port',url:'https://hl2.slqnt.dev/'},{name:'Half-Life 1',url:'https://www.inxanitylabs.com/games/half-life'},{name:'Retro Bowl',url:'https://poki.com/en/g/retro-bowl'},{name:'Retro Bowl College',url:'https://poki.com/en/g/retro-bowl-college'},{name:'1v1.LOL',url:'https://1v1.lol/'},{name:'Shell Shockers',url:'https://shellshock.io/'},{name:'Krunker',url:'https://krunker.io/'},{name:'Slope',url:'https://poki.com/en/g/slope'},{name:'Tunnel Rush',url:'https://poki.com/en/g/tunnel-rush'},{name:'Drive Mad',url:'https://poki.com/en/g/drive-mad'},{name:'Moto X3M',url:'https://poki.com/en/g/moto-x3m'},{name:'Basketball Stars',url:'https://poki.com/en/g/basketball-stars'},{name:'Subway Surfers',url:'https://poki.com/en/g/subway-surfers'},{name:'Roblox now.gg',url:'https://now.gg/apps/roblox-corporation/5349/roblox.html'},{name:'GeForce Now',url:'https://play.geforcenow.com/'},{name:'Xbox Cloud',url:'https://www.xbox.com/play'},{name:'Eaglercraft',url:'https://eaglercraft.com/mc/1.8.8/'},{name:'Minecraft Classic',url:'https://classic.minecraft.net/'},{name:'Run 3',url:'https://poki.com/en/g/run-3'},{name:'Bloxd.io',url:'https://bloxd.io/'},{name:'Vex 3',url:'https://poki.com/en/g/vex-3'},{name:'Fireboy Watergirl',url:'https://poki.com/en/g/fireboy-and-watergirl-1-forest-temple'}];
+const HUBS=[{name:'Niigo ★',url:'https://niigo.s3.amazonaws.com/index.html'},{name:'Bulltop',url:'https://bulltop.s3.amazonaws.com/index.html'},{name:'CloudFront d3d72',url:'https://d3d72bu1urb87i.cloudfront.net/'},{name:'StudyCove',url:'https://studycove.s3.amazonaws.com/index.html'},{name:'Solara',url:'https://solara.hdm1.net/'},{name:'Showtime',url:'https://showtime.readywintersprings.org/'},{name:'The Lights',url:'https://thelights.realkof.ru/'},{name:'Ride',url:'https://ride.missioncitydesign.com/'},{name:'OG Revs',url:'https://og.revs.cc/'},{name:'ThingyHub',url:'https://hub.thingyhub.com/'},{name:'Off the Grid',url:'https://offthegrid.hebux.com/'},{name:'3D Manic',url:'https://3d.manicresin.com/'},{name:'Steel',url:'https://steel.millerandwhitworth.net/'},{name:'Eduixl',url:'https://eduixl.b-cdn.net/'},{name:'Figure Softwares',url:'https://figure-cloud.figure-softwares.workers.dev/'},{name:'Sakura Vault',url:'https://Sakuravault.netlify.app/'}];
+const APPS=[{name:'YouTube',url:'https://www.youtube.com/'},{name:'Discord',url:'https://discord.com/app'},{name:'Reddit',url:'https://www.reddit.com/'},{name:'Twitch',url:'https://www.twitch.tv/'},{name:'Google',url:'https://www.google.com/'},{name:'ShuttleTV',url:'https://shuttletv.su/'},{name:'GeForce Now',url:'https://play.geforcenow.com/'},{name:'Photopea',url:'https://www.photopea.com/'},{name:'VS Code',url:'https://vscode.dev/'},{name:'Check IP',url:'https://browserleaks.com/ip'}];
+function $(id){return document.getElementById(id)}
+function currentProxy(){try{return localStorage.getItem('rustikop_proxy')||'cf'}catch(e){return 'cf'}}
+function saveProxy(){try{localStorage.setItem('rustikop_proxy',$('proxySelect').value)}catch(e){}updateProxyLabel()}
+function updateProxyLabel(){const t=currentProxy()==='cf'?'cloudflare · supercool':'direct';if($('proxyLabel'))$('proxyLabel').innerHTML='<span class="dot"></span>'+t}
+function normalizeUrl(url){if(!url)return 'https://www.google.com';url=url.trim();if(!/^https?:\/\//i.test(url)){if(url.includes('.')&&!url.includes(' '))url='https://'+url;else url='https://www.google.com/search?q='+encodeURIComponent(url)}return url}
+function proxied(url){if(currentProxy()==='direct')return url;return CF_WORKER+'/?url='+encodeURIComponent(url)}
+function setStatus(msg,url){if($('statusText'))$('statusText').textContent=msg;if($('statusUrl'))$('statusUrl').textContent=url||''}
+function showHome(){closePanels();$('home').classList.remove('hidden');$('browser').classList.remove('open');$('urlInput').value='';setStatus('home');document.querySelectorAll('.sidebar button').forEach(b=>b.classList.remove('active'));$('navHome').classList.add('active')}
+function openInApp(raw){const url=normalizeUrl(raw);const src=proxied(url);closePanels();$('home').classList.add('hidden');$('browser').classList.add('open');$('urlInput').value=url;$('view').src=src;setStatus('loading in-app…',url);document.querySelectorAll('.sidebar button').forEach(b=>b.classList.remove('active'))}
+function proxyOpen(raw){openInApp(raw)}
+function goUrl(fromMain){const q=(fromMain?$('mainSearch').value:$('urlInput').value).trim();if(!q){cloakTab();return}openInApp(q)}
+function navBack(){try{$('view').contentWindow.history.back()}catch(e){}}
+function navForward(){try{$('view').contentWindow.history.forward()}catch(e){}}
+function navReload(){const v=$('view');if(v&&v.src)v.src=v.src}
+function cloakTab(){const w=window.open('about:blank','_blank');if(!w)return;w.document.open();w.document.write(document.documentElement.outerHTML);w.document.close();try{w.document.title='New Tab'}catch(e){}}
+function panic(){location.replace('https://classroom.google.com/')}
+function downloadFile(){const b=new Blob([document.documentElement.outerHTML],{type:'text/html'});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download='RustikOP.html';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(u)}
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);try{localStorage.setItem('rustikop_theme',t)}catch(e){}$('themeDrop').classList.remove('open')}
+function toggleThemes(){$('themeDrop').classList.toggle('open')}
+document.addEventListener('click',e=>{if(!e.target.closest('.theme-menu'))$('themeDrop').classList.remove('open')});
+function fillGrid(id,items){const g=$(id);if(!g)return;g.innerHTML='';items.forEach(it=>{const a=document.createElement('button');a.type='button';a.className='card';a.textContent=it.name;a.onclick=()=>openInApp(it.url);g.appendChild(a)})}
+function fillShortcuts(){const box=$('shortcuts');box.innerHTML='';SHORTCUTS.forEach(s=>{const b=document.createElement('button');b.type='button';b.className='shortcut';b.innerHTML='<div class="icon">'+s.icon+'</div><span>'+s.name+'</span>';b.onclick=()=>openInApp(s.url);box.appendChild(b)});const more=document.createElement('button');more.type='button';more.className='shortcut';more.innerHTML='<div class="icon">+</div><span>More</span>';more.onclick=()=>openPanel('games');box.appendChild(more)}
+function openPanel(n){closePanels();$('home').classList.add('hidden');$('browser').classList.remove('open');$(n+'Panel').classList.add('open')}
+function closePanels(){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('open'))}
+function tickClock(){const t=new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});if($('clock'))$('clock').textContent=t}
+const phrases=['yo bro put on dat losercore playlist','me and my homies hate ridgeland securly','everything runs inside now','niigo if the rest are dead','supercool worker connected','panic goes to classroom'];
+function randomPhrase(){const el=$('phrase');if(!el)return;el.style.opacity='0';setTimeout(()=>{el.textContent=phrases[Math.floor(Math.random()*phrases.length)];el.style.opacity='1'},200)}
+const mcTracks=[{name:'Sweden',id:'aQkgUkkUads'},{name:'Wet Hands',id:'mJhZpYOlM0A'},{name:'Mice on Venus',id:'hZWV7RmR2uM'},{name:'Minecraft',id:'Dg0IjOzopYU'}];
+let trackIndex=0,player=null,musicOn=false;
+function onYouTubeIframeAPIReady(){player=new YT.Player('ytPlayer',{height:'1',width:'1',videoId:mcTracks[0].id,playerVars:{autoplay:0,controls:0},events:{onStateChange:e=>{if(e.data===YT.PlayerState.ENDED)nextTrack(true)}}})}
+(function(){var t=document.createElement('script');t.src='https://www.youtube.com/iframe_api';document.head.appendChild(t);window.onYouTubeIframeAPIReady=onYouTubeIframeAPIReady})();
+function toggleMusic(){const btn=$('musicPlayBtn');if(!player||typeof player.playVideo!=='function')return;if(musicOn){player.pauseVideo();btn.textContent='▶';musicOn=false}else{player.setVolume(40);player.playVideo();btn.textContent='⏸';musicOn=true}}
+function nextTrack(auto){trackIndex=(trackIndex+1)%mcTracks.length;$('trackName').textContent=mcTracks[trackIndex].name;if(player&&player.loadVideoById){player.loadVideoById(mcTracks[trackIndex].id);if(musicOn||auto){player.playVideo();musicOn=true;$('musicPlayBtn').textContent='⏸'}}}
+window.addEventListener('DOMContentLoaded',function(){try{const t=localStorage.getItem('rustikop_theme');if(t)setTheme(t);const s=$('proxySelect');if(s)s.value=currentProxy();updateProxyLabel()}catch(e){}fillShortcuts();fillGrid('gamesGrid',GAMES);fillGrid('hubsGrid',HUBS);fillGrid('appsGrid',APPS);tickClock();setInterval(tickClock,15000);setInterval(randomPhrase,12000);randomPhrase();$('view').addEventListener('load',function(){setStatus('loaded in-app',$('urlInput').value)})});
+</script>
+</body>
+</html>
