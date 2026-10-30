@@ -24,7 +24,7 @@ body{font-family:var(--font);min-height:100vh;background:var(--bg);color:var(--t
 .top-right{margin-left:auto;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
 .top-right a,.top-right button,.theme-btn,.proxy-sel{padding:6px 10px;border-radius:999px;border:1px solid var(--border);background:var(--bg2);color:var(--text);font-size:.78rem;text-decoration:none;cursor:pointer;font-weight:500;font-family:var(--font)}
 [data-theme="brutalist"] .top-right a,[data-theme="brutalist"] .top-right button,[data-theme="brutalist"] .theme-btn,[data-theme="brutalist"] .proxy-sel{border-radius:0;border:2px solid #fff}
-.proxy-sel{max-width:140px}
+.proxy-sel{max-width:150px}
 .theme-menu{position:relative}
 .theme-dropdown{display:none;position:absolute;right:0;top:110%;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);min-width:160px;z-index:100}
 .theme-dropdown.open{display:block}
@@ -38,10 +38,13 @@ body{font-family:var(--font);min-height:100vh;background:var(--bg);color:var(--t
 .logo-mark{width:48px;height:48px;border-radius:50%;background:var(--logo-grad);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.3rem}
 [data-theme="brutalist"] .logo-mark{border-radius:0;background:#fff;color:#000;border:3px solid #fff}
 .logo-text{font-size:2.6rem;font-weight:700;color:var(--text)}
-.search-big{width:100%;max-width:520px;display:flex;gap:10px;background:var(--bg2);border:1.5px solid var(--border);border-radius:999px;padding:14px 20px;margin-bottom:36px}
+.search-big{width:100%;max-width:520px;display:flex;gap:10px;background:var(--bg2);border:1.5px solid var(--border);border-radius:999px;padding:14px 20px;margin-bottom:16px}
 [data-theme="brutalist"] .search-big{border-radius:0;border:3px solid #fff;box-shadow:8px 8px 0 #fff}
 .search-big input{flex:1;border:none;outline:none;background:transparent;font-size:1.05rem;color:var(--text);font-family:var(--font)}
 .search-big button{background:transparent;border:none;color:var(--accent);font-size:1.2rem;cursor:pointer}
+.cf-row{width:100%;max-width:520px;margin-bottom:28px;text-align:left}
+.cf-row label{font-size:.72rem;color:var(--muted);display:block;margin-bottom:4px}
+.cf-row input{width:100%;padding:10px 14px;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg2);color:var(--text);font-size:.85rem;font-family:var(--font)}
 .shortcuts{display:flex;flex-wrap:wrap;gap:14px 18px;justify-content:center;max-width:680px}
 .shortcut{display:flex;flex-direction:column;align-items:center;gap:8px;width:72px;text-decoration:none;color:var(--text);cursor:pointer}
 .shortcut .icon{width:56px;height:56px;border-radius:50%;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.2rem;transition:transform .15s}
@@ -74,15 +77,12 @@ body{font-family:var(--font);min-height:100vh;background:var(--bg);color:var(--t
 <div id="app">
 <div class="topbar">
 <div class="nav-btns"><button onclick="history.back()">←</button><button onclick="history.forward()">→</button><button onclick="location.reload()">↻</button></div>
-<div class="url-bar"><input type="text" id="urlInput" placeholder="URL or search — via RustikViewing" onkeydown="if(event.key==='Enter')goUrl()"><button class="go" onclick="goUrl()">Go</button></div>
+<div class="url-bar"><input type="text" id="urlInput" placeholder="URL or search — Cloudflare proxy" onkeydown="if(event.key==='Enter')goUrl()"><button class="go" onclick="goUrl()">Go</button></div>
 <div class="top-right">
 <select class="proxy-sel" id="proxySelect" onchange="saveProxy()">
-<option value="rustik">RustikViewing</option>
-<option value="scramjet">Scramjet (epose)</option>
-<option value="croxy">CroxyProxy</option>
-<option value="four">4everproxy</option>
-<option value="hide">Hide.me</option>
+<option value="cf">Cloudflare Worker</option>
 <option value="direct">Direct</option>
+<option value="croxy">CroxyProxy</option>
 </select>
 <div class="theme-menu">
 <button class="theme-btn" onclick="toggleThemes()">Themes ▾</button>
@@ -106,6 +106,10 @@ body{font-family:var(--font);min-height:100vh;background:var(--bg);color:var(--t
 <div class="center">
 <div class="logo-row"><div class="logo-mark">R</div><div class="logo-text">RustikOP</div></div>
 <div class="search-big"><input type="text" id="mainSearch" placeholder="Empty + Enter = about:blank" onkeydown="if(event.key==='Enter')goUrl(true)"><button onclick="goUrl(true)">→</button></div>
+<div class="cf-row">
+<label>Cloudflare Worker URL (from worker.js deploy)</label>
+<input type="text" id="cfUrl" placeholder="https://rustikop-proxy.YOUR_SUBDOMAIN.workers.dev" onchange="saveCf()">
+</div>
 <div class="shortcuts">
 <a class="shortcut" href="#" onclick="proxyOpen('https://hl2.slqnt.dev/');return false"><div class="icon">λ2</div><span>HL2 Port</span></a>
 <a class="shortcut" href="#" onclick="proxyOpen('https://www.inxanitylabs.com/games/half-life');return false"><div class="icon">λ</div><span>Half-Life</span></a>
@@ -121,11 +125,11 @@ body{font-family:var(--font);min-height:100vh;background:var(--bg);color:var(--t
 </div>
 </div>
 <div class="bottom">
-<div class="online" id="proxyLabel">proxy · rustik</div>
+<div class="online" id="proxyLabel">proxy · cf</div>
 <div class="hate">me and my homies hate ridgeland securly</div>
 <div class="phrase" id="phrase">yo bro put on dat losercore playlist</div>
 </div>
-<div class="panel" id="gamesPanel"><button class="close-panel" onclick="closePanels()">Close</button><h2>Games</h2><p class="sub">Via your selected proxy</p><div class="panel-grid">
+<div class="panel" id="gamesPanel"><button class="close-panel" onclick="closePanels()">Close</button><h2>Games</h2><p class="sub">Via Cloudflare Worker when set</p><div class="panel-grid">
 <a href="#" onclick="proxyOpen('https://hl2.slqnt.dev/');return false">Half-Life 2</a>
 <a href="#" onclick="proxyOpen('https://www.inxanitylabs.com/games/half-life');return false">Half-Life 1</a>
 <a href="#" onclick="proxyOpen('https://poki.com/en/g/retro-bowl');return false">Retro Bowl</a>
@@ -135,19 +139,15 @@ body{font-family:var(--font);min-height:100vh;background:var(--bg);color:var(--t
 <a href="#" onclick="proxyOpen('https://now.gg/apps/roblox-corporation/5349/roblox.html');return false">Roblox</a>
 <a href="#" onclick="proxyOpen('https://shuttletv.su/');return false">ShuttleTV</a>
 </div></div>
-<div class="panel" id="proxiesPanel"><button class="close-panel" onclick="closePanels()">Close</button><h2>Proxies</h2><p class="sub">RustikViewing is your proxy</p><div class="panel-grid">
-<button class="card" onclick="setProxy('rustik')">RustikViewing (default)</button>
-<button class="card" onclick="setProxy('scramjet')">Scramjet (epose)</button>
-<button class="card" onclick="setProxy('croxy')">CroxyProxy</button>
-<button class="card" onclick="setProxy('four')">4everproxy</button>
-<button class="card" onclick="setProxy('hide')">Hide.me</button>
+<div class="panel" id="proxiesPanel"><button class="close-panel" onclick="closePanels()">Close</button><h2>Proxy</h2><p class="sub">Deploy worker.js to Cloudflare, paste URL on the home screen</p><div class="panel-grid">
+<button class="card" onclick="setProxy('cf')">Cloudflare Worker</button>
 <button class="card" onclick="setProxy('direct')">Direct</button>
+<button class="card" onclick="setProxy('croxy')">CroxyProxy</button>
 </div></div>
 <div class="panel" id="vpnPanel"><button class="close-panel" onclick="closePanels()">Close</button><h2>VPN</h2><div class="panel-grid">
 <a href="#" onclick="proxyOpen('https://browserleaks.com/ip');return false">Check IP</a>
 <a href="#" onclick="proxyOpen('https://protonvpn.com/free-vpn');return false">Proton VPN Free</a>
 <a href="#" onclick="proxyOpen('https://browsec.com/');return false">Browsec</a>
-<a href="#" onclick="proxyOpen('https://windscribe.com/');return false">Windscribe</a>
 <a href="#" onclick="proxyOpen('https://10.0.1.3/');return false">1.1.1.1 WARP</a>
 </div></div>
 <div class="panel" id="toolsPanel"><button class="close-panel" onclick="closePanels()">Close</button><h2>Tools</h2><div class="panel-grid">
@@ -159,22 +159,26 @@ body{font-family:var(--font);min-height:100vh;background:var(--bg);color:var(--t
 <div class="music-player"><button class="play" id="musicPlayBtn" onclick="toggleMusic()">▶</button><div class="music-info"><div class="track" id="trackName">Sweden</div><div class="album">Minecraft · Volume Alpha</div></div><button class="next" onclick="nextTrack()">⏭</button></div>
 <div id="ytPlayer" style="position:fixed;width:1px;height:1px;opacity:0;pointer-events:none"></div>
 <script>
-const RV='https://restii-dev.github.io/RustikViewing/';
-function currentProxy(){try{return localStorage.getItem('rustikop_proxy')||'rustik'}catch(e){return 'rustik'}}
+function currentProxy(){try{return localStorage.getItem('rustikop_proxy')||'cf'}catch(e){return 'cf'}}
+function getCf(){try{return (localStorage.getItem('rustikop_cf')||'').replace(/\/$/,'')}catch(e){return ''}}
+function saveCf(){const v=document.getElementById('cfUrl').value.trim().replace(/\/$/,'');try{localStorage.setItem('rustikop_cf',v)}catch(e){}updateProxyLabel()}
 function saveProxy(){const v=document.getElementById('proxySelect').value;try{localStorage.setItem('rustikop_proxy',v)}catch(e){}updateProxyLabel()}
 function setProxy(id){try{localStorage.setItem('rustikop_proxy',id)}catch(e){}const s=document.getElementById('proxySelect');if(s)s.value=id;updateProxyLabel();closePanels()}
-function updateProxyLabel(){const el=document.getElementById('proxyLabel');if(el)el.textContent='proxy · '+currentProxy()}
+function updateProxyLabel(){const el=document.getElementById('proxyLabel');if(!el)return;const m=currentProxy();el.textContent=m==='cf'?(getCf()?'proxy · cloudflare':'proxy · cf (set worker URL)'):('proxy · '+m)}
 function normalizeUrl(url){if(!url)return 'https://www.google.com';url=url.trim();if(!/^https?:\/\//i.test(url)){if(url.includes('.')&&!url.includes(' '))url='https://'+url;else url='https://www.google.com/search?q='+encodeURIComponent(url)}return url}
 function proxyOpen(raw){
   const url=normalizeUrl(raw);
   const mode=currentProxy();
-  if(mode==='rustik'){window.open(RV+'?url='+encodeURIComponent(url),'_blank');return}
-  if(mode==='scramjet'){window.open('https://restii-dev.github.io/epose/#/'+encodeURIComponent(url),'_blank');return}
   if(mode==='direct'){window.open(url,'_blank');return}
-  if(mode==='four'){const b64=btoa(unescape(encodeURIComponent(url))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');window.open('https://www.4everproxy.com/direct/'+b64,'_blank');return}
-  if(mode==='hide'){window.open('https://hide.me/en/proxy?u='+encodeURIComponent(url),'_blank');return}
+  if(mode==='cf'){
+    const cf=getCf();
+    if(!cf){alert('Paste your Cloudflare Worker URL in the box under the search bar first.\n\nDeploy worker.js from this repo to workers.dev');return}
+    window.open(cf+'/?url='+encodeURIComponent(url),'_blank');
+    return;
+  }
+  // croxy fallback
   const f=document.createElement('form');f.method='POST';f.action='https://www.croxyproxy.com/servers';f.target='_blank';f.style.display='none';
-  const i=document.createElement('input');i.name='url';i.value=url;f.appendChild(i);document.body.appendChild(f);try{f.submit()}catch(e){window.open('https://www.croxyproxy.com/?q='+encodeURIComponent(url),'_blank')}setTimeout(()=>f.remove(),400);
+  const i=document.createElement('input');i.name='url';i.value=url;f.appendChild(i);document.body.appendChild(f);try{f.submit()}catch(e){window.open(url,'_blank')}setTimeout(()=>f.remove(),400);
 }
 function openAboutBlank(){const w=window.open('about:blank','_blank');if(!w)return;w.document.open();w.document.write(document.documentElement.outerHTML);w.document.close();try{w.document.title='New Tab'}catch(e){}}
 function panic(){location.replace('https://classroom.google.com/')}
@@ -182,11 +186,11 @@ function downloadFile(){const t=document.documentElement.outerHTML;const b=new B
 function setTheme(t){document.documentElement.setAttribute('data-theme',t);try{localStorage.setItem('rustikop_theme',t)}catch(e){}document.getElementById('themeDrop').classList.remove('open')}
 function toggleThemes(){document.getElementById('themeDrop').classList.toggle('open')}
 document.addEventListener('click',e=>{if(!e.target.closest('.theme-menu'))document.getElementById('themeDrop').classList.remove('open')});
-window.addEventListener('DOMContentLoaded',function(){try{const t=localStorage.getItem('rustikop_theme');if(t)setTheme(t);const p=currentProxy();const s=document.getElementById('proxySelect');if(s)s.value=p;updateProxyLabel()}catch(e){}startPhrases()});
+window.addEventListener('DOMContentLoaded',function(){try{const t=localStorage.getItem('rustikop_theme');if(t)setTheme(t);const p=currentProxy();const s=document.getElementById('proxySelect');if(s)s.value=p;const cf=getCf();const cfi=document.getElementById('cfUrl');if(cfi&&cf)cfi.value=cf;updateProxyLabel()}catch(e){}startPhrases()});
 function goUrl(m){let q=m?document.getElementById('mainSearch').value.trim():document.getElementById('urlInput').value.trim();if(!q){window.open('about:blank','_blank');return}proxyOpen(q)}
 function openPanel(n){closePanels();document.getElementById(n+'Panel').classList.add('open')}
 function closePanels(){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('open'))}
-const phrases=['yo bro put on dat losercore playlist','me and my homies hate ridgeland securly','rustikviewing go brrr','your own proxy hits different','panic button goes to classroom','stay cozy out there king'];
+const phrases=['yo bro put on dat losercore playlist','me and my homies hate ridgeland securly','cloudflare worker go brrr','set your worker url under search','panic button goes to classroom','stay cozy out there king'];
 function randomPhrase(){const el=document.getElementById('phrase');el.style.opacity='0';setTimeout(()=>{el.textContent=phrases[Math.floor(Math.random()*phrases.length)];el.style.opacity='1'},250)}
 function startPhrases(){setInterval(randomPhrase,11000);randomPhrase()}
 const mcTracks=[{name:'Sweden',id:'aQkgUkkUads'},{name:'Wet Hands',id:'mJhZpYOlM0A'},{name:'Mice on Venus',id:'hZWV7RmR2uM'},{name:'Minecraft',id:'Dg0IjOzopYU'}];
