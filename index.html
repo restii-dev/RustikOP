@@ -15,16 +15,16 @@ body{font-family:var(--font);min-height:100vh;background:var(--bg);color:var(--t
 .bg-overlay{position:fixed;inset:0;z-index:1;background:var(--overlay);opacity:.9;pointer-events:none}
 [data-theme="brutalist"] .bg-overlay{display:none}
 #app{display:flex;position:relative;z-index:10;height:100vh;flex-direction:column}
-.topbar{display:flex;align-items:center;gap:8px;height:48px;padding:0 12px;background:var(--bar);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);z-index:40}
+.topbar{display:flex;align-items:center;gap:8px;height:48px;padding:0 12px;background:var(--bar);backdrop-filter upstream:blur(16px);border-bottom:1px solid var(--border);z-index:40}
+.topbar{backdrop-filter:blur(16px)}
 .nav-btns button{width:32px;height:32px;border:none;background:transparent;color:var(--muted);cursor:pointer;font-size:1rem;border-radius:var(--radius)}
 .url-bar{flex:1;display:flex;gap:8px;align-items:center;background:var(--bg2);border:1px solid var(--border);border-radius:999px;padding:7px 14px;max-width:640px}
 [data-theme="brutalist"] .url-bar{border-radius:0;border:3px solid #fff}
 .url-bar input{flex:1;border:none;outline:none;background:transparent;font-size:.9rem;color:var(--text);font-family:var(--font)}
 .url-bar .go{background:var(--accent);color:#fff;border:none;border-radius:999px;padding:5px 14px;font-weight:600;font-size:.8rem;cursor:pointer;font-family:var(--font)}
 .top-right{margin-left:auto;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
-.top-right a,.top-right button,.theme-btn,.proxy-sel{padding:6px 10px;border-radius:999px;border:1px solid var(--border);background:var(--bg2);color:var(--text);font-size:.78rem;text-decoration:none;cursor:pointer;font-weight:500;font-family:var(--font)}
-[data-theme="brutalist"] .top-right a,[data-theme="brutalist"] .top-right button,[data-theme="brutalist"] .theme-btn,[data-theme="brutalist"] .proxy-sel{border-radius:0;border:2px solid #fff}
-.proxy-sel{max-width:150px}
+.top-right button,.theme-btn,.proxy-sel{padding:6px 10px;border-radius:999px;border:1px solid var(--border);background:var(--bg2);color:var(--text);font-size:.78rem;cursor:pointer;font-weight:500;font-family:var(--font)}
+[data-theme="brutalist"] .top-right button,[data-theme="brutalist"] .theme-btn,[data-theme="brutalist"] .proxy-sel{border-radius:0;border:2px solid #fff}
 .theme-menu{position:relative}
 .theme-dropdown{display:none;position:absolute;right:0;top:110%;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);min-width:160px;z-index:100}
 .theme-dropdown.open{display:block}
@@ -38,19 +38,16 @@ body{font-family:var(--font);min-height:100vh;background:var(--bg);color:var(--t
 .logo-mark{width:48px;height:48px;border-radius:50%;background:var(--logo-grad);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.3rem}
 [data-theme="brutalist"] .logo-mark{border-radius:0;background:#fff;color:#000;border:3px solid #fff}
 .logo-text{font-size:2.6rem;font-weight:700;color:var(--text)}
-.search-big{width:100%;max-width:520px;display:flex;gap:10px;background:var(--bg2);border:1.5px solid var(--border);border-radius:999px;padding:14px 20px;margin-bottom:16px}
+.search-big{width:100%;max-width:520px;display:flex;gap:10px;background:var(--bg2);border:1.5px solid var(--border);border-radius:999px;padding:14px 20px;margin-bottom:28px}
 [data-theme="brutalist"] .search-big{border-radius:0;border:3px solid #fff;box-shadow:8px 8px 0 #fff}
 .search-big input{flex:1;border:none;outline:none;background:transparent;font-size:1.05rem;color:var(--text);font-family:var(--font)}
 .search-big button{background:transparent;border:none;color:var(--accent);font-size:1.2rem;cursor:pointer}
-.cf-row{width:100%;max-width:520px;margin-bottom:28px;text-align:left}
-.cf-row label{font-size:.72rem;color:var(--muted);display:block;margin-bottom:4px}
-.cf-row input{width:100%;padding:10px 14px;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg2);color:var(--text);font-size:.85rem;font-family:var(--font)}
-.shortcuts{display:flex;flex-wrap:wrap;gap:14px 18px;justify-content:center;max-width:680px}
-.shortcut{display:flex;flex-direction:column;align-items:center;gap:8px;width:72px;text-decoration:none;color:var(--text);cursor:pointer}
-.shortcut .icon{width:56px;height:56px;border-radius:50%;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.2rem;transition:transform .15s}
+.shortcuts{display:flex;flex-wrap:wrap;gap:14px 18px;justify-content:center;max-width:720px}
+.shortcut{display:flex;flex-direction:column;align-items:center;gap:8px;width:76px;text-decoration:none;color:var(--text);cursor:pointer}
+.shortcut .icon{width:56px;height:56px;border-radius:50%;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.15rem;transition:transform .15s}
 [data-theme="brutalist"] .shortcut .icon{border-radius:0;border:2px solid #fff;box-shadow:4px 4px 0 #fff}
 .shortcut:hover .icon{transform:translateY(-3px)}
-.shortcut span{font-size:.72rem;color:var(--muted)}
+.shortcut span{font-size:.7rem;color:var(--muted)}
 .bottom{position:absolute;bottom:20px;left:0;right:0;display:flex;justify-content:center;gap:12px;flex-wrap:wrap;z-index:15}
 .online{background:var(--bg2);border:1px solid var(--border);border-radius:999px;padding:6px 14px;font-size:.8rem;color:var(--muted)}
 .online::before{content:'';display:inline-block;width:7px;height:7px;background:#6abf4b;border-radius:50%;margin-right:6px}
@@ -58,10 +55,10 @@ body{font-family:var(--font);min-height:100vh;background:var(--bg);color:var(--t
 .phrase{background:var(--bg2);border:1px solid var(--border);border-radius:999px;padding:6px 14px;font-size:.8rem;color:var(--muted);min-width:160px;transition:opacity .3s}
 .panel{display:none;position:fixed;inset:48px 0 0 56px;z-index:30;background:var(--panel);overflow-y:auto;padding:28px}
 .panel.open{display:block}
-.panel h2{font-size:1.4rem;margin-bottom:8px}
+.panel h2{font-size:1.4rem;margin-bottom:6px}
 .panel .sub{font-size:.85rem;color:var(--muted);margin-bottom:16px}
-.panel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
-.panel a,.panel button.card{display:block;padding:14px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);text-decoration:none;color:var(--text);font-weight:500;font-size:.92rem;cursor:pointer;font-family:var(--font);text-align:left;width:100%}
+.panel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.panel a,.panel button.card{display:block;padding:12px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);text-decoration:none;color:var(--text);font-weight:500;font-size:.88rem;cursor:pointer;font-family:var(--font);text-align:left;width:100%;word-break:break-all}
 .close-panel{position:absolute;top:18px;right:22px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:8px 14px;cursor:pointer;color:var(--text);font-family:var(--font)}
 .music-player{position:fixed;bottom:18px;right:18px;z-index:50;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:10px 14px;display:flex;align-items:center;gap:10px;max-width:280px}
 .music-player button.play{width:40px;height:40px;border-radius:50%;border:none;background:var(--logo-grad);color:#fff;font-size:1rem;cursor:pointer}
@@ -77,12 +74,11 @@ body{font-family:var(--font);min-height:100vh;background:var(--bg);color:var(--t
 <div id="app">
 <div class="topbar">
 <div class="nav-btns"><button onclick="history.back()">←</button><button onclick="history.forward()">→</button><button onclick="location.reload()">↻</button></div>
-<div class="url-bar"><input type="text" id="urlInput" placeholder="URL or search — Cloudflare proxy" onkeydown="if(event.key==='Enter')goUrl()"><button class="go" onclick="goUrl()">Go</button></div>
+<div class="url-bar"><input type="text" id="urlInput" placeholder="URL or search — via Cloudflare" onkeydown="if(event.key==='Enter')goUrl()"><button class="go" onclick="goUrl()">Go</button></div>
 <div class="top-right">
 <select class="proxy-sel" id="proxySelect" onchange="saveProxy()">
-<option value="cf">Cloudflare Worker</option>
+<option value="cf">Cloudflare</option>
 <option value="direct">Direct</option>
-<option value="croxy">CroxyProxy</option>
 </select>
 <div class="theme-menu">
 <button class="theme-btn" onclick="toggleThemes()">Themes ▾</button>
@@ -99,86 +95,108 @@ body{font-family:var(--font);min-height:100vh;background:var(--bg);color:var(--t
 <div class="sidebar">
 <button class="active" onclick="closePanels()">⌂</button>
 <button onclick="openPanel('games')">🎮</button>
-<button onclick="openPanel('proxies')">🔒</button>
-<button onclick="openPanel('vpn')">🛡</button>
+<button onclick="openPanel('hubs')">🔗</button>
 <button onclick="openPanel('tools')">⚙</button>
 </div>
 <div class="center">
 <div class="logo-row"><div class="logo-mark">R</div><div class="logo-text">RustikOP</div></div>
 <div class="search-big"><input type="text" id="mainSearch" placeholder="Empty + Enter = about:blank" onkeydown="if(event.key==='Enter')goUrl(true)"><button onclick="goUrl(true)">→</button></div>
-<div class="cf-row">
-<label>Cloudflare Worker URL (from worker.js deploy)</label>
-<input type="text" id="cfUrl" placeholder="https://rustikop-proxy.YOUR_SUBDOMAIN.workers.dev" onchange="saveCf()">
-</div>
 <div class="shortcuts">
-<a class="shortcut" href="#" onclick="proxyOpen('https://hl2.slqnt.dev/');return false"><div class="icon">λ2</div><span>HL2 Port</span></a>
-<a class="shortcut" href="#" onclick="proxyOpen('https://www.inxanitylabs.com/games/half-life');return false"><div class="icon">λ</div><span>Half-Life</span></a>
+<a class="shortcut" href="#" onclick="proxyOpen('https://niigo.s3.amazonaws.com/index.html');return false"><div class="icon">⭐</div><span>Niigo</span></a>
+<a class="shortcut" href="#" onclick="proxyOpen('https://bulltop.s3.amazonaws.com/index.html');return false"><div class="icon">🐂</div><span>Bulltop</span></a>
+<a class="shortcut" href="#" onclick="proxyOpen('https://d3d72bu1urb87i.cloudfront.net/');return false"><div class="icon">☁️</div><span>CF Hub</span></a>
+<a class="shortcut" href="#" onclick="proxyOpen('https://hl2.slqnt.dev/');return false"><div class="icon">λ2</div><span>HL2</span></a>
 <a class="shortcut" href="#" onclick="proxyOpen('https://poki.com/en/g/retro-bowl');return false"><div class="icon">🏈</div><span>Retro Bowl</span></a>
 <a class="shortcut" href="#" onclick="proxyOpen('https://1v1.lol/');return false"><div class="icon">🎯</div><span>1v1.LOL</span></a>
-<a class="shortcut" href="#" onclick="proxyOpen('https://play.geforcenow.com/');return false"><div class="icon">☁️</div><span>GeForce Now</span></a>
-<a class="shortcut" href="#" onclick="proxyOpen('https://www.xbox.com/play');return false"><div class="icon">🟢</div><span>Xbox Cloud</span></a>
 <a class="shortcut" href="#" onclick="proxyOpen('https://now.gg/apps/roblox-corporation/5349/roblox.html');return false"><div class="icon">🧱</div><span>Roblox</span></a>
+<a class="shortcut" href="#" onclick="proxyOpen('https://play.geforcenow.com/');return false"><div class="icon">🎮</div><span>GeForce</span></a>
 <a class="shortcut" href="#" onclick="proxyOpen('https://shuttletv.su/');return false"><div class="icon">📺</div><span>ShuttleTV</span></a>
-<a class="shortcut" href="#" onclick="openPanel('vpn');return false"><div class="icon">🛡</div><span>VPN</span></a>
 <a class="shortcut" href="#" onclick="openAboutBlank();return false"><div class="icon">⬜</div><span>Blank</span></a>
-<div class="shortcut" onclick="openPanel('games')"><div class="icon">+</div><span>More</span></div>
+<div class="shortcut" onclick="openPanel('hubs')"><div class="icon">+</div><span>More hubs</span></div>
 </div>
 </div>
 <div class="bottom">
-<div class="online" id="proxyLabel">proxy · cf</div>
+<div class="online" id="proxyLabel">proxy · cloudflare</div>
 <div class="hate">me and my homies hate ridgeland securly</div>
 <div class="phrase" id="phrase">yo bro put on dat losercore playlist</div>
 </div>
-<div class="panel" id="gamesPanel"><button class="close-panel" onclick="closePanels()">Close</button><h2>Games</h2><p class="sub">Via Cloudflare Worker when set</p><div class="panel-grid">
-<a href="#" onclick="proxyOpen('https://hl2.slqnt.dev/');return false">Half-Life 2</a>
-<a href="#" onclick="proxyOpen('https://www.inxanitylabs.com/games/half-life');return false">Half-Life 1</a>
-<a href="#" onclick="proxyOpen('https://poki.com/en/g/retro-bowl');return false">Retro Bowl</a>
-<a href="#" onclick="proxyOpen('https://1v1.lol/');return false">1v1.LOL</a>
-<a href="#" onclick="proxyOpen('https://play.geforcenow.com/');return false">GeForce Now</a>
-<a href="#" onclick="proxyOpen('https://www.xbox.com/play');return false">Xbox Cloud</a>
-<a href="#" onclick="proxyOpen('https://now.gg/apps/roblox-corporation/5349/roblox.html');return false">Roblox</a>
-<a href="#" onclick="proxyOpen('https://shuttletv.su/');return false">ShuttleTV</a>
-</div></div>
-<div class="panel" id="proxiesPanel"><button class="close-panel" onclick="closePanels()">Close</button><h2>Proxy</h2><p class="sub">Deploy worker.js to Cloudflare, paste URL on the home screen</p><div class="panel-grid">
-<button class="card" onclick="setProxy('cf')">Cloudflare Worker</button>
-<button class="card" onclick="setProxy('direct')">Direct</button>
-<button class="card" onclick="setProxy('croxy')">CroxyProxy</button>
-</div></div>
-<div class="panel" id="vpnPanel"><button class="close-panel" onclick="closePanels()">Close</button><h2>VPN</h2><div class="panel-grid">
-<a href="#" onclick="proxyOpen('https://browserleaks.com/ip');return false">Check IP</a>
-<a href="#" onclick="proxyOpen('https://protonvpn.com/free-vpn');return false">Proton VPN Free</a>
-<a href="#" onclick="proxyOpen('https://browsec.com/');return false">Browsec</a>
-<a href="#" onclick="proxyOpen('https://10.0.1.3/');return false">1.1.1.1 WARP</a>
-</div></div>
+
+<div class="panel" id="gamesPanel"><button class="close-panel" onclick="closePanels()">Close</button><h2>Games</h2><p class="sub">Opened through your Cloudflare Worker</p><div class="panel-grid" id="gamesGrid"></div></div>
+<div class="panel" id="hubsPanel"><button class="close-panel" onclick="closePanels()">Close</button><h2>Game hubs (from your list)</h2><p class="sub">Doc note: majority may die — Niigo recommended. All via Cloudflare.</p><div class="panel-grid" id="hubsGrid"></div></div>
 <div class="panel" id="toolsPanel"><button class="close-panel" onclick="closePanels()">Close</button><h2>Tools</h2><div class="panel-grid">
 <button class="card" onclick="openAboutBlank()">about:blank</button>
-<button class="card" onclick="panic()">Panic</button>
+<button class="card" onclick="panic()">Panic → Classroom</button>
 <button class="card" onclick="downloadFile()">Download HTML</button>
+<button class="card" onclick="setTheme('rusty')">Theme: Rusty</button>
+<button class="card" onclick="setTheme('aero')">Theme: Frutiger Aero</button>
+<button class="card" onclick="setTheme('brutalist')">Theme: Brutalist</button>
 </div></div>
 </div>
+
 <div class="music-player"><button class="play" id="musicPlayBtn" onclick="toggleMusic()">▶</button><div class="music-info"><div class="track" id="trackName">Sweden</div><div class="album">Minecraft · Volume Alpha</div></div><button class="next" onclick="nextTrack()">⏭</button></div>
 <div id="ytPlayer" style="position:fixed;width:1px;height:1px;opacity:0;pointer-events:none"></div>
+
 <script>
+// Hard-wired Cloudflare Worker
+const CF_WORKER = 'https://supercool.unsamulige75.workers.dev';
+
+const GAMES = [
+  { name: 'Niigo (recommended)', url: 'https://niigo.s3.amazonaws.com/index.html' },
+  { name: 'Half-Life 2 Port', url: 'https://hl2.slqnt.dev/' },
+  { name: 'Half-Life 1', url: 'https://www.inxanitylabs.com/games/half-life' },
+  { name: 'Retro Bowl', url: 'https://poki.com/en/g/retro-bowl' },
+  { name: '1v1.LOL', url: 'https://1v1.lol/' },
+  { name: 'Shell Shockers', url: 'https://shellshock.io/' },
+  { name: 'Krunker', url: 'https://krunker.io/' },
+  { name: 'Roblox (now.gg)', url: 'https://now.gg/apps/roblox-corporation/5349/roblox.html' },
+  { name: 'GeForce Now', url: 'https://play.geforcenow.com/' },
+  { name: 'Xbox Cloud', url: 'https://www.xbox.com/play' },
+  { name: 'ShuttleTV', url: 'https://shuttletv.su/' },
+  { name: 'Poki', url: 'https://poki.com/' }
+];
+
+// Curated hubs from your Google Doc (working-oriented)
+const HUBS = [
+  { name: 'Niigo ★', url: 'https://niigo.s3.amazonaws.com/index.html' },
+  { name: 'Bulltop', url: 'https://bulltop.s3.amazonaws.com/index.html' },
+  { name: 'Bulltop math', url: 'https://bulltop.s3.amazonaws.com/math.html' },
+  { name: 'CloudFront d3d72', url: 'https://d3d72bu1urb87i.cloudfront.net/' },
+  { name: 'CloudFront d2y3e', url: 'https://d2y3e3ys31ft3w.cloudfront.net/' },
+  { name: 'CloudFront d8ey', url: 'https://d8eyjoox1mb9w.cloudfront.net/' },
+  { name: 'StudyCove S3', url: 'https://studycove.s3.amazonaws.com/index.html' },
+  { name: 'RookLearn S3', url: 'https://rooklearn.s3.amazonaws.com/index.svg' },
+  { name: 'Solara', url: 'https://solara.hdm1.net/' },
+  { name: 'Showtime', url: 'https://showtime.readywintersprings.org/' },
+  { name: 'The Lights', url: 'https://thelights.realkof.ru/' },
+  { name: 'Ride', url: 'https://ride.missioncitydesign.com/' },
+  { name: 'OG Revs', url: 'https://og.revs.cc/' },
+  { name: 'ThingyHub', url: 'https://hub.thingyhub.com/' },
+  { name: 'Off the Grid', url: 'https://offthegrid.hebux.com/' },
+  { name: 'Wow Night', url: 'https://wow.nighthoughts.com/' },
+  { name: 'In the Sky', url: 'https://inthesky.himlalghimire.com/' },
+  { name: '3D Manic', url: 'https://3d.manicresin.com/' },
+  { name: 'Steel', url: 'https://steel.millerandwhitworth.net/' },
+  { name: 'Watch Project', url: 'https://watch.project-mind.info/' },
+  { name: 'Element Hydros', url: 'https://element.hydros.cl/' },
+  { name: 'Eduixl CDN', url: 'https://eduixl.b-cdn.net/' },
+  { name: 'Clever Lulu', url: 'https://clever.luluschool.world/' },
+  { name: 'Figure Softwares', url: 'https://figure-cloud.figure-softwares.workers.dev/' },
+  { name: 'Sakura Vault', url: 'https://Sakuravault.netlify.app/' },
+  { name: 'Alese English', url: 'https://alesepikenglishclass.vercel.app/' },
+  { name: 'Exim Lab', url: 'https://eximlab.org/' },
+  { name: 'Business School', url: 'https://businessschool.cc/' },
+  { name: 'Spanish Scott', url: 'https://spanish-class.scottbaptist.com/' },
+  { name: 'Host NRC', url: 'https://host.nrc.hk/' }
+];
+
 function currentProxy(){try{return localStorage.getItem('rustikop_proxy')||'cf'}catch(e){return 'cf'}}
-function getCf(){try{return (localStorage.getItem('rustikop_cf')||'').replace(/\/$/,'')}catch(e){return ''}}
-function saveCf(){const v=document.getElementById('cfUrl').value.trim().replace(/\/$/,'');try{localStorage.setItem('rustikop_cf',v)}catch(e){}updateProxyLabel()}
 function saveProxy(){const v=document.getElementById('proxySelect').value;try{localStorage.setItem('rustikop_proxy',v)}catch(e){}updateProxyLabel()}
-function setProxy(id){try{localStorage.setItem('rustikop_proxy',id)}catch(e){}const s=document.getElementById('proxySelect');if(s)s.value=id;updateProxyLabel();closePanels()}
-function updateProxyLabel(){const el=document.getElementById('proxyLabel');if(!el)return;const m=currentProxy();el.textContent=m==='cf'?(getCf()?'proxy · cloudflare':'proxy · cf (set worker URL)'):('proxy · '+m)}
+function updateProxyLabel(){const el=document.getElementById('proxyLabel');if(el)el.textContent=currentProxy()==='cf'?'proxy · cloudflare · supercool':'proxy · direct'}
 function normalizeUrl(url){if(!url)return 'https://www.google.com';url=url.trim();if(!/^https?:\/\//i.test(url)){if(url.includes('.')&&!url.includes(' '))url='https://'+url;else url='https://www.google.com/search?q='+encodeURIComponent(url)}return url}
 function proxyOpen(raw){
   const url=normalizeUrl(raw);
-  const mode=currentProxy();
-  if(mode==='direct'){window.open(url,'_blank');return}
-  if(mode==='cf'){
-    const cf=getCf();
-    if(!cf){alert('Paste your Cloudflare Worker URL in the box under the search bar first.\n\nDeploy worker.js from this repo to workers.dev');return}
-    window.open(cf+'/?url='+encodeURIComponent(url),'_blank');
-    return;
-  }
-  // croxy fallback
-  const f=document.createElement('form');f.method='POST';f.action='https://www.croxyproxy.com/servers';f.target='_blank';f.style.display='none';
-  const i=document.createElement('input');i.name='url';i.value=url;f.appendChild(i);document.body.appendChild(f);try{f.submit()}catch(e){window.open(url,'_blank')}setTimeout(()=>f.remove(),400);
+  if(currentProxy()==='direct'){window.open(url,'_blank');return}
+  window.open(CF_WORKER+'/?url='+encodeURIComponent(url),'_blank');
 }
 function openAboutBlank(){const w=window.open('about:blank','_blank');if(!w)return;w.document.open();w.document.write(document.documentElement.outerHTML);w.document.close();try{w.document.title='New Tab'}catch(e){}}
 function panic(){location.replace('https://classroom.google.com/')}
@@ -186,11 +204,25 @@ function downloadFile(){const t=document.documentElement.outerHTML;const b=new B
 function setTheme(t){document.documentElement.setAttribute('data-theme',t);try{localStorage.setItem('rustikop_theme',t)}catch(e){}document.getElementById('themeDrop').classList.remove('open')}
 function toggleThemes(){document.getElementById('themeDrop').classList.toggle('open')}
 document.addEventListener('click',e=>{if(!e.target.closest('.theme-menu'))document.getElementById('themeDrop').classList.remove('open')});
-window.addEventListener('DOMContentLoaded',function(){try{const t=localStorage.getItem('rustikop_theme');if(t)setTheme(t);const p=currentProxy();const s=document.getElementById('proxySelect');if(s)s.value=p;const cf=getCf();const cfi=document.getElementById('cfUrl');if(cfi&&cf)cfi.value=cf;updateProxyLabel()}catch(e){}startPhrases()});
+function fillGrid(id, items){
+  const g=document.getElementById(id);if(!g)return;g.innerHTML='';
+  items.forEach(it=>{
+    const a=document.createElement('a');
+    a.href='#';a.textContent=it.name;
+    a.onclick=e=>{e.preventDefault();proxyOpen(it.url)};
+    g.appendChild(a);
+  });
+}
+window.addEventListener('DOMContentLoaded',function(){
+  try{const t=localStorage.getItem('rustikop_theme');if(t)setTheme(t);const s=document.getElementById('proxySelect');if(s)s.value=currentProxy();updateProxyLabel()}catch(e){}
+  fillGrid('gamesGrid', GAMES);
+  fillGrid('hubsGrid', HUBS);
+  startPhrases();
+});
 function goUrl(m){let q=m?document.getElementById('mainSearch').value.trim():document.getElementById('urlInput').value.trim();if(!q){window.open('about:blank','_blank');return}proxyOpen(q)}
 function openPanel(n){closePanels();document.getElementById(n+'Panel').classList.add('open')}
 function closePanels(){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('open'))}
-const phrases=['yo bro put on dat losercore playlist','me and my homies hate ridgeland securly','cloudflare worker go brrr','set your worker url under search','panic button goes to classroom','stay cozy out there king'];
+const phrases=['yo bro put on dat losercore playlist','me and my homies hate ridgeland securly','niigo if the rest are dead','supercool worker connected','panic goes to classroom','stay cozy out there king'];
 function randomPhrase(){const el=document.getElementById('phrase');el.style.opacity='0';setTimeout(()=>{el.textContent=phrases[Math.floor(Math.random()*phrases.length)];el.style.opacity='1'},250)}
 function startPhrases(){setInterval(randomPhrase,11000);randomPhrase()}
 const mcTracks=[{name:'Sweden',id:'aQkgUkkUads'},{name:'Wet Hands',id:'mJhZpYOlM0A'},{name:'Mice on Venus',id:'hZWV7RmR2uM'},{name:'Minecraft',id:'Dg0IjOzopYU'}];
