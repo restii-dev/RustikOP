@@ -1,25 +1,30 @@
 /**
- * RustikOP Cloudflare Worker — strips frame blockers so pages load in-app
- * Deploy: paste into Workers → Deploy
- * URL used by hub: https://supercool.unsamulige75.workers.dev
+ * RustikOP proxy — real fetch + HTML rewrite + iframe-friendly headers
+ * Deploy to: supercool.unsamulige75.workers.dev
+ *
+ * Cloudflare Dashboard → Workers → supercool → Edit code → paste → Save & Deploy
+ * Or: npx wrangler deploy
  */
 export default {
   async fetch(request) {
     const cors = {
       "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+      "Access-Control-Allow-Methods": "GET, POST, OPTIONS, HEAD",
       "Access-Control-Allow-Headers": "*",
     };
+
     if (request.method === "OPTIONS") {
       return new Response(null, { status: 204, headers: cors });
     }
 
     const url = new URL(request.url);
     const target = url.searchParams.get("url");
+
     if (!target) {
-      return new Response("RustikOP proxy\n/?url=https://example.com\n", {
-        headers: { "content-type": "text/plain", ...cors },
-      });
+      return new Response(
+        "RustikOP Cloudflare Proxy\n\nUsage: /?url=https://example.com\n",
+        { status: 200, headers: { "content-type": "text/plain; charset=utf-8", ...cors } }
+      );
     }
 
     let dest;
@@ -29,22 +34,28 @@ export default {
       return new Response("Invalid url", { status: 400, headers: cors });
     }
     if (dest.protocol !== "http:" && dest.protocol !== "https:") {
-      return new Response("Only http/https", { status: 400, headers: cors });
+      return new Response("Only http/https allowed", { status: 400, headers: cors });
     }
 
     let upstream;
     try {
       upstream = await fetch(dest.href, {
+        method: "GET",
         headers: {
-          "user-agent": request.headers.get("user-agent") || "Mozilla/5.0",
-          accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+          "user-agent":
+            request.headers.get("user-agent") ||
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+          accept:
+            request.headers.get("accept") ||
+            "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+          "accept-language": "en-US,en;q=0.9",
         },
         redirect: "follow",
       });
     } catch (e) {
-      return new Response("Fetch failed: " + e.message, {
+      return new Response("Upstream fetch failed: " + e.message, {
         status: 502,
-        headers: { "content-type": "text/plain", ...cors },
+        headers: { "content-type": "text/plain; charset=utf-8", ...cors },
       });
     }
 
@@ -52,7 +63,6 @@ export default {
     const out = {
       ...cors,
       "cache-control": "no-store",
-      // allow embedding in RustikOP iframe
       "content-security-policy": "frame-ancestors *",
     };
 
@@ -75,7 +85,15 @@ export default {
           try {
             const abs = new URL(val, base).href;
             if (!/^https?:/i.test(abs)) return full;
-            return attr + "=" + q + workerOrigin + "/?url=" + encodeURIComponent(abs) + q;
+            return (
+              attr +
+              "=" +
+              q +
+              workerOrigin +
+              "/?url=" +
+              encodeURIComponent(abs) +
+              q
+            );
           } catch {
             return full;
           }
