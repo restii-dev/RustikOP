@@ -4,158 +4,236 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RustikOP</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23c45c26'/%3E%3Ctext x='32' y='44' font-size='36' text-anchor='middle' fill='%23f5e6d3' font-family='system-ui,sans-serif' font-weight='700'%3ER%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23c45c26'/%3E%3Ctext x='32' y='44' font-size='36' text-anchor='middle' fill='%23f5e6d3' font-family='system-ui' font-weight='700'%3ER%3C/text%3E%3C/svg%3E">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
-:root,[data-theme="rusty"]{--bg:#2a211c;--bg2:#322820;--text:#e8d5c0;--muted:#b89b7a;--accent:#c45c26;--panel:rgba(31,24,20,.96);--bar:rgba(40,30,24,.85);--border:rgba(196,92,38,.25);--hate-bg:rgba(80,40,30,.9);--hate:#e8a090;--radius:12px;--font:Inter,system-ui,sans-serif;--logo-grad:linear-gradient(135deg,#d4692a,#9c3f12);--overlay:linear-gradient(160deg,#2a211c,#3d2b22 50%,#2a211c)}
-[data-theme="aero"]{--bg:#a8d4f0;--bg2:rgba(255,255,255,.55);--text:#1a3a5c;--muted:#3d6a8a;--accent:#3b9eff;--panel:rgba(255,255,255,.72);--bar:rgba(255,255,255,.65);--border:rgba(255,255,255,.8);--hate-bg:rgba(255,180,100,.85);--hate:#8b4513;--radius:18px;--font:Inter,Segoe UI,system-ui,sans-serif;--logo-grad:linear-gradient(180deg,#7ec8ff,#3b9eff 40%,#1e6fd4);--overlay:linear-gradient(160deg,rgba(135,206,250,.7),rgba(176,224,230,.5) 40%,rgba(144,238,144,.35))}
-[data-theme="brutalist"]{--bg:#111;--bg2:#000;--text:#fff;--muted:#aaa;--accent:#fff;--panel:#000;--bar:#000;--border:#fff;--hate-bg:#ff0;--hate:#000;--radius:0;--font:'IBM Plex Mono',monospace;--logo-grad:#fff;--overlay:none}
-body{font-family:var(--font);min-height:100vh;background:var(--bg);color:var(--text);overflow:hidden}
-.bg-overlay{position:fixed;inset:0;z-index:1;background:var(--overlay);opacity:.9;pointer-events:none}
-[data-theme="brutalist"] .bg-overlay{display:none}
-#app{display:flex;position:relative;z-index:10;height:100vh;flex-direction:column}
-.topbar{display:flex;align-items:center;gap:8px;height:48px;padding:0 12px;background:var(--bar);backdrop-filter upstream:blur(16px);border-bottom:1px solid var(--border);z-index:40}
-.topbar{backdrop-filter:blur(16px)}
-.nav-btns button{width:32px;height:32px;border:none;background:transparent;color:var(--muted);cursor:pointer;font-size:1rem;border-radius:var(--radius)}
-.url-bar{flex:1;display:flex;gap:8px;align-items:center;background:var(--bg2);border:1px solid var(--border);border-radius:999px;padding:7px 14px;max-width:640px}
-[data-theme="brutalist"] .url-bar{border-radius:0;border:3px solid #fff}
+:root,[data-theme="rusty"]{--bg:#2a211c;--bg2:#322820;--text:#e8d5c0;--muted:#b89b7a;--accent:#c45c26;--panel:rgba(31,24,20,.98);--bar:rgba(40,30,24,.92);--border:rgba(196,92,38,.28);--hate-bg:rgba(80,40,30,.9);--hate:#e8a090;--radius:12px;--font:Inter,system-ui,sans-serif;--logo:linear-gradient(135deg,#d4692a,#9c3f12)}
+[data-theme="aero"]{--bg:#a8d4f0;--bg2:rgba(255,255,255,.55);--text:#1a3a5c;--muted:#3d6a8a;--accent:#3b9eff;--panel:rgba(255,255,255,.85);--bar:rgba(255,255,255,.75);--border:rgba(255,255,255,.85);--hate-bg:rgba(255,180,100,.85);--hate:#8b4513;--radius:18px;--logo:linear-gradient(180deg,#7ec8ff,#1e6fd4)}
+[data-theme="brutalist"]{--bg:#111;--bg2:#000;--text:#fff;--muted:#aaa;--accent:#fff;--panel:#000;--bar:#000;--border:#fff;--hate-bg:#ff0;--hate:#000;--radius:0;--font:'IBM Plex Mono',monospace;--logo:#fff}
+html,body{height:100%;overflow:hidden}
+body{font-family:var(--font);background:var(--bg);color:var(--text)}
+#app{display:flex;flex-direction:column;height:100vh}
+.topbar{display:flex;align-items:center;gap:8px;height:48px;padding:0 10px;background:var(--bar);border-bottom:1px solid var(--border);flex-shrink:0;z-index:50}
+.nav-btns{display:flex;gap:2px}
+.nav-btns button,.icon-btn{width:34px;height:34px;border:none;background:transparent;color:var(--muted);cursor:pointer;font-size:1rem;border-radius:var(--radius)}
+.nav-btns button:hover,.icon-btn:hover{background:var(--bg2);color:var(--text)}
+.url-bar{flex:1;display:flex;gap:8px;align-items:center;background:var(--bg2);border:1px solid var(--border);border-radius:999px;padding:6px 12px;max-width:720px}
+[data-theme="brutalist"] .url-bar{border-radius:0;border:2px solid #fff}
 .url-bar input{flex:1;border:none;outline:none;background:transparent;font-size:.9rem;color:var(--text);font-family:var(--font)}
 .url-bar .go{background:var(--accent);color:#fff;border:none;border-radius:999px;padding:5px 14px;font-weight:600;font-size:.8rem;cursor:pointer;font-family:var(--font)}
-.top-right{margin-left:auto;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
-.top-right button,.theme-btn,.proxy-sel{padding:6px 10px;border-radius:999px;border:1px solid var(--border);background:var(--bg2);color:var(--text);font-size:.78rem;cursor:pointer;font-weight:500;font-family:var(--font)}
-[data-theme="brutalist"] .top-right button,[data-theme="brutalist"] .theme-btn,[data-theme="brutalist"] .proxy-sel{border-radius:0;border:2px solid #fff}
+.top-right{margin-left:auto;display:flex;gap:6px;align-items:center}
+.top-right button,.proxy-sel{padding:6px 10px;border-radius:999px;border:1px solid var(--border);background:var(--bg2);color:var(--text);font-size:.75rem;cursor:pointer;font-family:var(--font)}
+[data-theme="brutalist"] .top-right button,[data-theme="brutalist"] .proxy-sel{border-radius:0;border:2px solid #fff}
 .theme-menu{position:relative}
-.theme-dropdown{display:none;position:absolute;right:0;top:110%;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);min-width:160px;z-index:100}
+.theme-dropdown{display:none;position:absolute;right:0;top:110%;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);min-width:150px;z-index:80}
 .theme-dropdown.open{display:block}
-.theme-dropdown button{display:block;width:100%;text-align:left;padding:10px 14px;border:none;background:transparent;color:var(--text);cursor:pointer;font-family:var(--font);font-size:.85rem}
+.theme-dropdown button{display:block;width:100%;text-align:left;padding:10px 12px;border:none;background:transparent;color:var(--text);cursor:pointer;font-family:var(--font);font-size:.85rem}
 .theme-dropdown button:hover{background:var(--bg2)}
-.sidebar{position:fixed;left:0;top:48px;bottom:0;width:56px;background:var(--bar);border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;padding-top:12px;gap:8px;z-index:20}
-.sidebar button{width:40px;height:40px;border-radius:var(--radius);border:none;background:transparent;color:var(--muted);cursor:pointer;font-size:1.15rem}
-.sidebar button:hover,.sidebar .active{background:var(--bg2);color:var(--text)}
-.center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 80px;text-align:center}
-.logo-row{display:flex;align-items:center;gap:14px;margin-bottom:28px}
-.logo-mark{width:48px;height:48px;border-radius:50%;background:var(--logo-grad);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.3rem}
+.body-row{flex:1;display:flex;min-height:0}
+.sidebar{width:56px;background:var(--bar);border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;padding-top:10px;gap:6px;flex-shrink:0}
+.sidebar button{width:40px;height:40px;border-radius:var(--radius);border:none;background:transparent;color:var(--muted);cursor:pointer;font-size:1.1rem}
+.sidebar button:hover,.sidebar button.active{background:var(--bg2);color:var(--text)}
+.main{flex:1;display:flex;flex-direction:column;min-width:0;position:relative}
+.home{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 60px;text-align:center;overflow-y:auto}
+.home.hidden{display:none}
+.logo-row{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.logo-mark{width:48px;height:48px;border-radius:50%;background:var(--logo);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.3rem}
 [data-theme="brutalist"] .logo-mark{border-radius:0;background:#fff;color:#000;border:3px solid #fff}
-.logo-text{font-size:2.6rem;font-weight:700;color:var(--text)}
-.search-big{width:100%;max-width:520px;display:flex;gap:10px;background:var(--bg2);border:1.5px solid var(--border);border-radius:999px;padding:14px 20px;margin-bottom:28px}
-[data-theme="brutalist"] .search-big{border-radius:0;border:3px solid #fff;box-shadow:8px 8px 0 #fff}
+.logo-text{font-size:2.4rem;font-weight:700}
+.clock{font-size:.9rem;color:var(--muted);margin-bottom:18px}
+.search-big{width:100%;max-width:540px;display:flex;gap:8px;background:var(--bg2);border:1.5px solid var(--border);border-radius:999px;padding:12px 18px;margin-bottom:22px}
+[data-theme="brutalist"] .search-big{border-radius:0;border:3px solid #fff}
 .search-big input{flex:1;border:none;outline:none;background:transparent;font-size:1.05rem;color:var(--text);font-family:var(--font)}
-.search-big button{background:transparent;border:none;color:var(--accent);font-size:1.2rem;cursor:pointer}
-.shortcuts{display:flex;flex-wrap:wrap;gap:14px 18px;justify-content:center;max-width:720px}
-.shortcut{display:flex;flex-direction:column;align-items:center;gap:8px;width:76px;text-decoration:none;color:var(--text);cursor:pointer}
-.shortcut .icon{width:56px;height:56px;border-radius:50%;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.15rem;transition:transform .15s}
-[data-theme="brutalist"] .shortcut .icon{border-radius:0;border:2px solid #fff;box-shadow:4px 4px 0 #fff}
+.search-big button{border:none;background:transparent;color:var(--accent);font-size:1.2rem;cursor:pointer}
+.shortcuts{display:flex;flex-wrap:wrap;gap:12px 14px;justify-content:center;max-width:720px;margin-bottom:18px}
+.shortcut{display:flex;flex-direction:column;align-items:center;gap:6px;width:72px;cursor:pointer;color:var(--text);text-decoration:none;background:none;border:none;font-family:var(--font)}
+.shortcut .icon{width:54px;height:54px;border-radius:50%;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.15rem;transition:transform .12s}
+[data-theme="brutalist"] .shortcut .icon{border-radius:0;border:2px solid #fff}
 .shortcut:hover .icon{transform:translateY(-3px)}
-.shortcut span{font-size:.7rem;color:var(--muted)}
-.bottom{position:absolute;bottom:20px;left:0;right:0;display:flex;justify-content:center;gap:12px;flex-wrap:wrap;z-index:15}
-.online{background:var(--bg2);border:1px solid var(--border);border-radius:999px;padding:6px 14px;font-size:.8rem;color:var(--muted)}
-.online::before{content:'';display:inline-block;width:7px;height:7px;background:#6abf4b;border-radius:50%;margin-right:6px}
-.hate{background:var(--hate-bg);border:1px solid var(--accent);border-radius:999px;padding:6px 14px;font-size:.8rem;font-weight:600;color:var(--hate)}
-.phrase{background:var(--bg2);border:1px solid var(--border);border-radius:999px;padding:6px 14px;font-size:.8rem;color:var(--muted);min-width:160px;transition:opacity .3s}
-.panel{display:none;position:fixed;inset:48px 0 0 56px;z-index:30;background:var(--panel);overflow-y:auto;padding:28px}
+.shortcut span{font-size:.68rem;color:var(--muted)}
+.footer-chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:8px}
+.chip{background:var(--bg2);border:1px solid var(--border);border-radius:999px;padding:5px 12px;font-size:.75rem;color:var(--muted)}
+.chip.hate{background:var(--hate-bg);border-color:var(--accent);color:var(--hate);font-weight:600}
+/* in-app browser */
+.browser{display:none;flex:1;flex-direction:column;min-height:0}
+.browser.open{display:flex}
+#view{flex:1;width:100%;border:none;background:#0d0a08;min-height:0}
+.panel{display:none;position:absolute;inset:0;z-index:40;background:var(--panel);overflow-y:auto;padding:24px 24px 40px}
 .panel.open{display:block}
-.panel h2{font-size:1.4rem;margin-bottom:6px}
-.panel .sub{font-size:.85rem;color:var(--muted);margin-bottom:16px}
-.panel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
-.panel a,.panel button.card{display:block;padding:12px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);text-decoration:none;color:var(--text);font-weight:500;font-size:.88rem;cursor:pointer;font-family:var(--font);text-align:left;width:100%;word-break:break-all}
-.close-panel{position:absolute;top:18px;right:22px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:8px 14px;cursor:pointer;color:var(--text);font-family:var(--font)}
-.music-player{position:fixed;bottom:18px;right:18px;z-index:50;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:10px 14px;display:flex;align-items:center;gap:10px;max-width:280px}
-.music-player button.play{width:40px;height:40px;border-radius:50%;border:none;background:var(--logo-grad);color:#fff;font-size:1rem;cursor:pointer}
-.music-info .track{font-size:.8rem;font-weight:600}
-.music-info .album{font-size:.68rem;color:var(--muted)}
-.music-player .next{background:transparent;border:none;color:var(--muted);font-size:1.1rem;cursor:pointer}
-.panic{position:fixed;top:56px;right:12px;z-index:60;background:#c0392b;color:#fff;border:none;border-radius:var(--radius);padding:8px 14px;font-weight:700;font-size:.8rem;cursor:pointer;font-family:var(--font)}
+.panel h2{font-size:1.3rem;margin-bottom:6px}
+.panel .sub{font-size:.82rem;color:var(--muted);margin-bottom:14px}
+.panel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.panel a,.panel button.card{display:block;padding:12px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);text-decoration:none;color:var(--text);font-weight:500;font-size:.85rem;cursor:pointer;font-family:var(--font);text-align:left;width:100%}
+.close-panel{position:sticky;top:0;float:right;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:8px 14px;cursor:pointer;color:var(--text);font-family:var(--font);z-index:2}
+.music{position:fixed;bottom:14px;right:14px;z-index:60;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:8px 12px;display:flex;align-items:center;gap:8px;max-width:260px}
+.music .play{width:36px;height:36px;border-radius:50%;border:none;background:var(--logo);color:#fff;cursor:pointer}
+.music .meta .t{font-size:.78rem;font-weight:600}
+.music .meta .a{font-size:.65rem;color:var(--muted)}
+.music .next{border:none;background:transparent;color:var(--muted);cursor:pointer;font-size:1rem}
+.panic{position:fixed;top:54px;right:10px;z-index:70;background:#c0392b;color:#fff;border:none;border-radius:var(--radius);padding:7px 12px;font-weight:700;font-size:.75rem;cursor:pointer;font-family:var(--font)}
+.status-bar{height:22px;background:var(--bar);border-top:1px solid var(--border);display:flex;align-items:center;padding:0 12px;font-size:.7rem;color:var(--muted);flex-shrink:0;gap:12px}
+.status-bar .dot{width:6px;height:6px;border-radius:50%;background:#6abf4b;display:inline-block;margin-right:4px}
 </style>
 </head>
 <body>
-<div class="bg-overlay"></div>
 <button class="panic" onclick="panic()">PANIC</button>
 <div id="app">
-<div class="topbar">
-<div class="nav-btns"><button onclick="history.back()">←</button><button onclick="history.forward()">→</button><button onclick="location.reload()">↻</button></div>
-<div class="url-bar"><input type="text" id="urlInput" placeholder="URL or search — via Cloudflare" onkeydown="if(event.key==='Enter')goUrl()"><button class="go" onclick="goUrl()">Go</button></div>
-<div class="top-right">
-<select class="proxy-sel" id="proxySelect" onchange="saveProxy()">
-<option value="cf">Cloudflare</option>
-<option value="direct">Direct</option>
-</select>
-<div class="theme-menu">
-<button class="theme-btn" onclick="toggleThemes()">Themes ▾</button>
-<div class="theme-dropdown" id="themeDrop">
-<button onclick="setTheme('rusty')">🦀 Rusty</button>
-<button onclick="setTheme('aero')">💎 Frutiger Aero</button>
-<button onclick="setTheme('brutalist')">⬛ Brutalist</button>
-</div>
-</div>
-<button onclick="openAboutBlank()">about:blank</button>
-<button onclick="downloadFile()">↓</button>
-</div>
-</div>
-<div class="sidebar">
-<button class="active" onclick="closePanels()">⌂</button>
-<button onclick="openPanel('games')">🎮</button>
-<button onclick="openPanel('hubs')">🔗</button>
-<button onclick="openPanel('tools')">⚙</button>
-</div>
-<div class="center">
-<div class="logo-row"><div class="logo-mark">R</div><div class="logo-text">RustikOP</div></div>
-<div class="search-big"><input type="text" id="mainSearch" placeholder="Empty + Enter = about:blank" onkeydown="if(event.key==='Enter')goUrl(true)"><button onclick="goUrl(true)">→</button></div>
-<div class="shortcuts">
-<a class="shortcut" href="#" onclick="proxyOpen('https://niigo.s3.amazonaws.com/index.html');return false"><div class="icon">⭐</div><span>Niigo</span></a>
-<a class="shortcut" href="#" onclick="proxyOpen('https://bulltop.s3.amazonaws.com/index.html');return false"><div class="icon">🐂</div><span>Bulltop</span></a>
-<a class="shortcut" href="#" onclick="proxyOpen('https://d3d72bu1urb87i.cloudfront.net/');return false"><div class="icon">☁️</div><span>CF Hub</span></a>
-<a class="shortcut" href="#" onclick="proxyOpen('https://hl2.slqnt.dev/');return false"><div class="icon">λ2</div><span>HL2</span></a>
-<a class="shortcut" href="#" onclick="proxyOpen('https://poki.com/en/g/retro-bowl');return false"><div class="icon">🏈</div><span>Retro Bowl</span></a>
-<a class="shortcut" href="#" onclick="proxyOpen('https://1v1.lol/');return false"><div class="icon">🎯</div><span>1v1.LOL</span></a>
-<a class="shortcut" href="#" onclick="proxyOpen('https://now.gg/apps/roblox-corporation/5349/roblox.html');return false"><div class="icon">🧱</div><span>Roblox</span></a>
-<a class="shortcut" href="#" onclick="proxyOpen('https://play.geforcenow.com/');return false"><div class="icon">🎮</div><span>GeForce</span></a>
-<a class="shortcut" href="#" onclick="proxyOpen('https://shuttletv.su/');return false"><div class="icon">📺</div><span>ShuttleTV</span></a>
-<a class="shortcut" href="#" onclick="openAboutBlank();return false"><div class="icon">⬜</div><span>Blank</span></a>
-<div class="shortcut" onclick="openPanel('hubs')"><div class="icon">+</div><span>More hubs</span></div>
-</div>
-</div>
-<div class="bottom">
-<div class="online" id="proxyLabel">proxy · cloudflare</div>
-<div class="hate">me and my homies hate ridgeland securly</div>
-<div class="phrase" id="phrase">yo bro put on dat losercore playlist</div>
+  <div class="topbar">
+    <div class="nav-btns">
+      <button type="button" onclick="navBack()" title="Back">←</button>
+      <button type="button" onclick="navForward()" title="Forward">→</button>
+      <button type="button" onclick="navReload()" title="Reload">↻</button>
+      <button type="button" onclick="showHome()" title="Home">⌂</button>
+    </div>
+    <div class="url-bar">
+      <input type="text" id="urlInput" placeholder="Search or URL — loads inside the site" onkeydown="if(event.key==='Enter')goUrl()">
+      <button class="go" type="button" onclick="goUrl()">Go</button>
+    </div>
+    <div class="top-right">
+      <select class="proxy-sel" id="proxySelect" onchange="saveProxy()">
+        <option value="cf">Cloudflare</option>
+        <option value="direct">Direct</option>
+      </select>
+      <div class="theme-menu">
+        <button type="button" onclick="toggleThemes()">Themes ▾</button>
+        <div class="theme-dropdown" id="themeDrop">
+          <button type="button" onclick="setTheme('rusty')">🦀 Rusty</button>
+          <button type="button" onclick="setTheme('aero')">💎 Frutiger Aero</button>
+          <button type="button" onclick="setTheme('brutalist')">⬛ Brutalist</button>
+        </div>
+      </div>
+      <button type="button" onclick="cloakTab()">about:blank</button>
+      <button type="button" onclick="downloadFile()">↓</button>
+    </div>
+  </div>
+
+  <div class="body-row">
+    <div class="sidebar">
+      <button type="button" class="active" id="navHome" onclick="showHome()" title="Home">⌂</button>
+      <button type="button" onclick="openPanel('games')" title="Games">🎮</button>
+      <button type="button" onclick="openPanel('hubs')" title="Hubs">🔗</button>
+      <button type="button" onclick="openPanel('apps')" title="Apps">📱</button>
+      <button type="button" onclick="openPanel('tools')" title="Tools">⚙</button>
+    </div>
+
+    <div class="main">
+      <div class="home" id="home">
+        <div class="logo-row"><div class="logo-mark">R</div><div class="logo-text">RustikOP</div></div>
+        <div class="clock" id="clock">--:--</div>
+        <div class="search-big">
+          <input type="text" id="mainSearch" placeholder="Empty + Enter = blank tab · else opens inside" onkeydown="if(event.key==='Enter')goUrl(true)">
+          <button type="button" onclick="goUrl(true)">→</button>
+        </div>
+        <div class="shortcuts" id="shortcuts"></div>
+        <div class="footer-chips">
+          <span class="chip" id="proxyLabel"><span class="dot"></span>cloudflare · supercool</span>
+          <span class="chip hate">me and my homies hate ridgeland securly</span>
+          <span class="chip" id="phrase">yo bro put on dat losercore playlist</span>
+        </div>
+      </div>
+
+      <div class="browser" id="browser">
+        <iframe id="view" title="In-app browser" allow="fullscreen; gamepad; autoplay; clipboard-read; clipboard-write" allowfullscreen></iframe>
+      </div>
+
+      <div class="panel" id="gamesPanel">
+        <button class="close-panel" type="button" onclick="closePanels()">Close</button>
+        <h2>Games</h2>
+        <p class="sub">All open inside RustikOP via your Cloudflare Worker</p>
+        <div class="panel-grid" id="gamesGrid"></div>
+      </div>
+      <div class="panel" id="hubsPanel">
+        <button class="close-panel" type="button" onclick="closePanels()">Close</button>
+        <h2>Game hubs</h2>
+        <p class="sub">From your list · Niigo recommended when others die</p>
+        <div class="panel-grid" id="hubsGrid"></div>
+      </div>
+      <div class="panel" id="appsPanel">
+        <button class="close-panel" type="button" onclick="closePanels()">Close</button>
+        <h2>Apps & media</h2>
+        <p class="sub">YouTube, Discord, cloud gaming — in-site</p>
+        <div class="panel-grid" id="appsGrid"></div>
+      </div>
+      <div class="panel" id="toolsPanel">
+        <button class="close-panel" type="button" onclick="closePanels()">Close</button>
+        <h2>Tools</h2>
+        <div class="panel-grid">
+          <button class="card" type="button" onclick="showHome()">Home</button>
+          <button class="card" type="button" onclick="cloakTab()">Cloak → about:blank</button>
+          <button class="card" type="button" onclick="panic()">Panic → Classroom</button>
+          <button class="card" type="button" onclick="downloadFile()">Download this HTML</button>
+          <button class="card" type="button" onclick="setTheme('rusty')">Theme: Rusty</button>
+          <button class="card" type="button" onclick="setTheme('aero')">Theme: Frutiger Aero</button>
+          <button class="card" type="button" onclick="setTheme('brutalist')">Theme: Brutalist</button>
+          <button class="card" type="button" onclick="proxyOpen('https://browserleaks.com/ip')">Check IP (proxied)</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="status-bar">
+    <span><span class="dot"></span><span id="statusText">ready · in-app browser</span></span>
+    <span id="statusUrl"></span>
+  </div>
 </div>
 
-<div class="panel" id="gamesPanel"><button class="close-panel" onclick="closePanels()">Close</button><h2>Games</h2><p class="sub">Opened through your Cloudflare Worker</p><div class="panel-grid" id="gamesGrid"></div></div>
-<div class="panel" id="hubsPanel"><button class="close-panel" onclick="closePanels()">Close</button><h2>Game hubs (from your list)</h2><p class="sub">Doc note: majority may die — Niigo recommended. All via Cloudflare.</p><div class="panel-grid" id="hubsGrid"></div></div>
-<div class="panel" id="toolsPanel"><button class="close-panel" onclick="closePanels()">Close</button><h2>Tools</h2><div class="panel-grid">
-<button class="card" onclick="openAboutBlank()">about:blank</button>
-<button class="card" onclick="panic()">Panic → Classroom</button>
-<button class="card" onclick="downloadFile()">Download HTML</button>
-<button class="card" onclick="setTheme('rusty')">Theme: Rusty</button>
-<button class="card" onclick="setTheme('aero')">Theme: Frutiger Aero</button>
-<button class="card" onclick="setTheme('brutalist')">Theme: Brutalist</button>
-</div></div>
+<div class="music">
+  <button class="play" id="musicPlayBtn" type="button" onclick="toggleMusic()">▶</button>
+  <div class="meta"><div class="t" id="trackName">Sweden</div><div class="a">Minecraft · Volume Alpha</div></div>
+  <button class="next" type="button" onclick="nextTrack()">⏭</button>
 </div>
-
-<div class="music-player"><button class="play" id="musicPlayBtn" onclick="toggleMusic()">▶</button><div class="music-info"><div class="track" id="trackName">Sweden</div><div class="album">Minecraft · Volume Alpha</div></div><button class="next" onclick="nextTrack()">⏭</button></div>
 <div id="ytPlayer" style="position:fixed;width:1px;height:1px;opacity:0;pointer-events:none"></div>
 
 <script>
-// Hard-wired Cloudflare Worker
 const CF_WORKER = 'https://supercool.unsamulige75.workers.dev';
 
+const SHORTCUTS = [
+  { name: 'Niigo', icon: '⭐', url: 'https://niigo.s3.amazonaws.com/index.html' },
+  { name: 'Bulltop', icon: '🐂', url: 'https://bulltop.s3.amazonaws.com/index.html' },
+  { name: 'HL2', icon: 'λ2', url: 'https://hl2.slqnt.dev/' },
+  { name: 'Retro Bowl', icon: '🏈', url: 'https://poki.com/en/g/retro-bowl' },
+  { name: '1v1.LOL', icon: '🎯', url: 'https://1v1.lol/' },
+  { name: 'Shell Shock', icon: '🥚', url: 'https://shellshock.io/' },
+  { name: 'Krunker', icon: '🔫', url: 'https://krunker.io/' },
+  { name: 'Roblox', icon: '🧱', url: 'https://now.gg/apps/roblox-corporation/5349/roblox.html' },
+  { name: 'GeForce', icon: '☁️', url: 'https://play.geforcenow.com/' },
+  { name: 'YouTube', icon: '▶️', url: 'https://www.youtube.com/' },
+  { name: 'Discord', icon: '💬', url: 'https://discord.com/app' },
+  { name: 'ShuttleTV', icon: '📺', url: 'https://shuttletv.su/' }
+];
+
 const GAMES = [
-  { name: 'Niigo (recommended)', url: 'https://niigo.s3.amazonaws.com/index.html' },
+  { name: 'Niigo (hub)', url: 'https://niigo.s3.amazonaws.com/index.html' },
   { name: 'Half-Life 2 Port', url: 'https://hl2.slqnt.dev/' },
   { name: 'Half-Life 1', url: 'https://www.inxanitylabs.com/games/half-life' },
   { name: 'Retro Bowl', url: 'https://poki.com/en/g/retro-bowl' },
+  { name: 'Retro Bowl College', url: 'https://poki.com/en/g/retro-bowl-college' },
   { name: '1v1.LOL', url: 'https://1v1.lol/' },
   { name: 'Shell Shockers', url: 'https://shellshock.io/' },
   { name: 'Krunker', url: 'https://krunker.io/' },
-  { name: 'Roblox (now.gg)', url: 'https://now.gg/apps/roblox-corporation/5349/roblox.html' },
+  { name: 'Slope', url: 'https://poki.com/en/g/slope' },
+  { name: 'Tunnel Rush', url: 'https://poki.com/en/g/tunnel-rush' },
+  { name: 'Stack Ball', url: 'https://poki.com/en/g/stack-ball' },
+  { name: 'Drive Mad', url: 'https://poki.com/en/g/drive-mad' },
+  { name: 'Moto X3M', url: 'https://poki.com/en/g/moto-x3m' },
+  { name: 'Basketball Stars', url: 'https://poki.com/en/g/basketball-stars' },
+  { name: 'Soccer Skills', url: 'https://poki.com/en/g/soccer-skills-euro-cup' },
+  { name: 'Subway Surfers', url: 'https://poki.com/en/g/subway-surfers' },
+  { name: 'Temple Run 2', url: 'https://poki.com/en/g/temple-run-2' },
+  { name: 'Among Us (Poki)', url: 'https://poki.com/en/g/imposter-solo-kill' },
+  { name: 'Roblox now.gg', url: 'https://now.gg/apps/roblox-corporation/5349/roblox.html' },
   { name: 'GeForce Now', url: 'https://play.geforcenow.com/' },
   { name: 'Xbox Cloud', url: 'https://www.xbox.com/play' },
-  { name: 'ShuttleTV', url: 'https://shuttletv.su/' },
-  { name: 'Poki', url: 'https://poki.com/' }
+  { name: 'Eaglercraft', url: 'https://eaglercraft.com/mc/1.8.8/' },
+  { name: 'Minecraft Classic', url: 'https://classic.minecraft.net/' },
+  { name: 'Run 3', url: 'https://poki.com/en/g/run-3' },
+  { name: 'Crossy Road', url: 'https://poki.com/en/g/crossy-road' },
+  { name: 'Vex 3', url: 'https://poki.com/en/g/vex-3' },
+  { name: 'Fireboy & Watergirl', url: 'https://poki.com/en/g/fireboy-and-watergirl-1-forest-temple' },
+  { name: 'Bloxd.io', url: 'https://bloxd.io/' }
 ];
 
-// Curated hubs from your Google Doc (working-oriented)
 const HUBS = [
   { name: 'Niigo ★', url: 'https://niigo.s3.amazonaws.com/index.html' },
   { name: 'Bulltop', url: 'https://bulltop.s3.amazonaws.com/index.html' },
@@ -189,48 +267,194 @@ const HUBS = [
   { name: 'Host NRC', url: 'https://host.nrc.hk/' }
 ];
 
+const APPS = [
+  { name: 'YouTube', url: 'https://www.youtube.com/' },
+  { name: 'YouTube Music', url: 'https://music.youtube.com/' },
+  { name: 'Discord', url: 'https://discord.com/app' },
+  { name: 'Reddit', url: 'https://www.reddit.com/' },
+  { name: 'Twitch', url: 'https://www.twitch.tv/' },
+  { name: 'TikTok', url: 'https://www.tiktok.com/' },
+  { name: 'Google', url: 'https://www.google.com/' },
+  { name: 'Wikipedia', url: 'https://www.wikipedia.org/' },
+  { name: 'ShuttleTV', url: 'https://shuttletv.su/' },
+  { name: 'GeForce Now', url: 'https://play.geforcenow.com/' },
+  { name: 'Xbox Cloud', url: 'https://www.xbox.com/play' },
+  { name: 'Photopea', url: 'https://www.photopea.com/' },
+  { name: 'VS Code web', url: 'https://vscode.dev/' },
+  { name: 'Check my IP', url: 'https://browserleaks.com/ip' }
+];
+
+function $(id){return document.getElementById(id)}
 function currentProxy(){try{return localStorage.getItem('rustikop_proxy')||'cf'}catch(e){return 'cf'}}
-function saveProxy(){const v=document.getElementById('proxySelect').value;try{localStorage.setItem('rustikop_proxy',v)}catch(e){}updateProxyLabel()}
-function updateProxyLabel(){const el=document.getElementById('proxyLabel');if(el)el.textContent=currentProxy()==='cf'?'proxy · cloudflare · supercool':'proxy · direct'}
-function normalizeUrl(url){if(!url)return 'https://www.google.com';url=url.trim();if(!/^https?:\/\//i.test(url)){if(url.includes('.')&&!url.includes(' '))url='https://'+url;else url='https://www.google.com/search?q='+encodeURIComponent(url)}return url}
-function proxyOpen(raw){
-  const url=normalizeUrl(raw);
-  if(currentProxy()==='direct'){window.open(url,'_blank');return}
-  window.open(CF_WORKER+'/?url='+encodeURIComponent(url),'_blank');
+function saveProxy(){try{localStorage.setItem('rustikop_proxy',$('proxySelect').value)}catch(e){}updateProxyLabel()}
+function updateProxyLabel(){
+  const m=currentProxy();
+  const t=m==='cf'?'cloudflare · supercool':'direct';
+  if($('proxyLabel'))$('proxyLabel').innerHTML='<span class="dot"></span>'+t;
 }
-function openAboutBlank(){const w=window.open('about:blank','_blank');if(!w)return;w.document.open();w.document.write(document.documentElement.outerHTML);w.document.close();try{w.document.title='New Tab'}catch(e){}}
+function normalizeUrl(url){
+  if(!url)return 'https://www.google.com';
+  url=url.trim();
+  if(!/^https?:\/\//i.test(url)){
+    if(url.includes('.')&&!url.includes(' '))url='https://'+url;
+    else url='https://www.google.com/search?q='+encodeURIComponent(url);
+  }
+  return url;
+}
+function proxied(url){
+  if(currentProxy()==='direct')return url;
+  return CF_WORKER+'/?url='+encodeURIComponent(url);
+}
+
+function setStatus(msg, url){
+  if($('statusText'))$('statusText').textContent=msg;
+  if($('statusUrl'))$('statusUrl').textContent=url||'';
+}
+
+function showHome(){
+  closePanels();
+  $('home').classList.remove('hidden');
+  $('browser').classList.remove('open');
+  $('urlInput').value='';
+  setStatus('home');
+  document.querySelectorAll('.sidebar button').forEach(b=>b.classList.remove('active'));
+  $('navHome').classList.add('active');
+}
+
+function openInApp(raw){
+  const url=normalizeUrl(raw);
+  const src=proxied(url);
+  closePanels();
+  $('home').classList.add('hidden');
+  $('browser').classList.add('open');
+  $('urlInput').value=url;
+  $('view').src=src;
+  setStatus('loading in-app…', url);
+  document.querySelectorAll('.sidebar button').forEach(b=>b.classList.remove('active'));
+}
+
+function proxyOpen(raw){openInApp(raw)}
+
+function goUrl(fromMain){
+  const q=(fromMain?$('mainSearch').value:$('urlInput').value).trim();
+  if(!q){cloakTab();return}
+  openInApp(q);
+}
+
+function navBack(){try{$('view').contentWindow.history.back()}catch(e){}}
+function navForward(){try{$('view').contentWindow.history.forward()}catch(e){}}
+function navReload(){
+  const v=$('view');
+  if(v&&v.src)v.src=v.src;
+}
+
+function cloakTab(){
+  const w=window.open('about:blank','_blank');
+  if(!w)return;
+  w.document.open();
+  w.document.write(document.documentElement.outerHTML);
+  w.document.close();
+  try{w.document.title='New Tab'}catch(e){}
+}
 function panic(){location.replace('https://classroom.google.com/')}
-function downloadFile(){const t=document.documentElement.outerHTML;const b=new Blob([t],{type:'text/html'});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download='RustikOP.html';document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(u)}
-function setTheme(t){document.documentElement.setAttribute('data-theme',t);try{localStorage.setItem('rustikop_theme',t)}catch(e){}document.getElementById('themeDrop').classList.remove('open')}
-function toggleThemes(){document.getElementById('themeDrop').classList.toggle('open')}
-document.addEventListener('click',e=>{if(!e.target.closest('.theme-menu'))document.getElementById('themeDrop').classList.remove('open')});
+function downloadFile(){
+  const t=document.documentElement.outerHTML;
+  const b=new Blob([t],{type:'text/html'});
+  const u=URL.createObjectURL(b);
+  const a=document.createElement('a');
+  a.href=u;a.download='RustikOP.html';
+  document.body.appendChild(a);a.click();a.remove();
+  URL.revokeObjectURL(u);
+}
+function setTheme(t){
+  document.documentElement.setAttribute('data-theme',t);
+  try{localStorage.setItem('rustikop_theme',t)}catch(e){}
+  $('themeDrop').classList.remove('open');
+}
+function toggleThemes(){$('themeDrop').classList.toggle('open')}
+document.addEventListener('click',e=>{if(!e.target.closest('.theme-menu'))$('themeDrop').classList.remove('open')});
+
 function fillGrid(id, items){
-  const g=document.getElementById(id);if(!g)return;g.innerHTML='';
+  const g=$(id);if(!g)return;g.innerHTML='';
   items.forEach(it=>{
-    const a=document.createElement('a');
-    a.href='#';a.textContent=it.name;
-    a.onclick=e=>{e.preventDefault();proxyOpen(it.url)};
+    const a=document.createElement('button');
+    a.type='button';a.className='card';a.textContent=it.name;
+    a.onclick=()=>openInApp(it.url);
     g.appendChild(a);
   });
 }
-window.addEventListener('DOMContentLoaded',function(){
-  try{const t=localStorage.getItem('rustikop_theme');if(t)setTheme(t);const s=document.getElementById('proxySelect');if(s)s.value=currentProxy();updateProxyLabel()}catch(e){}
-  fillGrid('gamesGrid', GAMES);
-  fillGrid('hubsGrid', HUBS);
-  startPhrases();
-});
-function goUrl(m){let q=m?document.getElementById('mainSearch').value.trim():document.getElementById('urlInput').value.trim();if(!q){window.open('about:blank','_blank');return}proxyOpen(q)}
-function openPanel(n){closePanels();document.getElementById(n+'Panel').classList.add('open')}
+function fillShortcuts(){
+  const box=$('shortcuts');box.innerHTML='';
+  SHORTCUTS.forEach(s=>{
+    const b=document.createElement('button');
+    b.type='button';b.className='shortcut';
+    b.innerHTML='<div class="icon">'+s.icon+'</div><span>'+s.name+'</span>';
+    b.onclick=()=>openInApp(s.url);
+    box.appendChild(b);
+  });
+  const more=document.createElement('button');
+  more.type='button';more.className='shortcut';
+  more.innerHTML='<div class="icon">+</div><span>More</span>';
+  more.onclick=()=>openPanel('games');
+  box.appendChild(more);
+}
+function openPanel(n){
+  closePanels();
+  $('home').classList.add('hidden');
+  $('browser').classList.remove('open');
+  $(n+'Panel').classList.add('open');
+}
 function closePanels(){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('open'))}
-const phrases=['yo bro put on dat losercore playlist','me and my homies hate ridgeland securly','niigo if the rest are dead','supercool worker connected','panic goes to classroom','stay cozy out there king'];
-function randomPhrase(){const el=document.getElementById('phrase');el.style.opacity='0';setTimeout(()=>{el.textContent=phrases[Math.floor(Math.random()*phrases.length)];el.style.opacity='1'},250)}
-function startPhrases(){setInterval(randomPhrase,11000);randomPhrase()}
+
+function tickClock(){
+  const d=new Date();
+  const t=d.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
+  if($('clock'))$('clock').textContent=t;
+}
+const phrases=['yo bro put on dat losercore playlist','me and my homies hate ridgeland securly','everything runs inside now','niigo if the rest are dead','supercool worker connected','panic goes to classroom'];
+function randomPhrase(){
+  const el=$('phrase');if(!el)return;
+  el.style.opacity='0';
+  setTimeout(()=>{el.textContent=phrases[Math.floor(Math.random()*phrases.length)];el.style.opacity='1'},200);
+}
+
 const mcTracks=[{name:'Sweden',id:'aQkgUkkUads'},{name:'Wet Hands',id:'mJhZpYOlM0A'},{name:'Mice on Venus',id:'hZWV7RmR2uM'},{name:'Minecraft',id:'Dg0IjOzopYU'}];
 let trackIndex=0,player=null,musicOn=false;
-function onYouTubeIframeAPIReady(){player=new YT.Player('ytPlayer',{height:'1',width:'1',videoId:mcTracks[0].id,playerVars:{autoplay:0,controls:0},events:{onStateChange:e=>{if(e.data===YT.PlayerState.ENDED)nextTrack(true)}}})}
+function onYouTubeIframeAPIReady(){
+  player=new YT.Player('ytPlayer',{height:'1',width:'1',videoId:mcTracks[0].id,playerVars:{autoplay:0,controls:0},events:{onStateChange:e=>{if(e.data===YT.PlayerState.ENDED)nextTrack(true)}}});
+}
 (function(){var t=document.createElement('script');t.src='https://www.youtube.com/iframe_api';document.head.appendChild(t);window.onYouTubeIframeAPIReady=onYouTubeIframeAPIReady})();
-function toggleMusic(){const btn=document.getElementById('musicPlayBtn');if(!player||typeof player.playVideo!=='function'){window.open('https://www.youtube.com/watch?v='+mcTracks[trackIndex].id,'_blank');return}if(musicOn){player.pauseVideo();btn.textContent='▶';musicOn=false}else{player.setVolume(40);player.playVideo();btn.textContent='⏸';musicOn=true}}
-function nextTrack(auto){trackIndex=(trackIndex+1)%mcTracks.length;document.getElementById('trackName').textContent=mcTracks[trackIndex].name;if(player&&player.loadVideoById){player.loadVideoById(mcTracks[trackIndex].id);if(musicOn||auto){player.playVideo();musicOn=true;document.getElementById('musicPlayBtn').textContent='⏸'}}}
+function toggleMusic(){
+  const btn=$('musicPlayBtn');
+  if(!player||typeof player.playVideo!=='function')return;
+  if(musicOn){player.pauseVideo();btn.textContent='▶';musicOn=false}
+  else{player.setVolume(40);player.playVideo();btn.textContent='⏸';musicOn=true}
+}
+function nextTrack(auto){
+  trackIndex=(trackIndex+1)%mcTracks.length;
+  $('trackName').textContent=mcTracks[trackIndex].name;
+  if(player&&player.loadVideoById){
+    player.loadVideoById(mcTracks[trackIndex].id);
+    if(musicOn||auto){player.playVideo();musicOn=true;$('musicPlayBtn').textContent='⏸'}
+  }
+}
+
+window.addEventListener('DOMContentLoaded',function(){
+  try{
+    const t=localStorage.getItem('rustikop_theme');if(t)setTheme(t);
+    const s=$('proxySelect');if(s)s.value=currentProxy();
+    updateProxyLabel();
+  }catch(e){}
+  fillShortcuts();
+  fillGrid('gamesGrid',GAMES);
+  fillGrid('hubsGrid',HUBS);
+  fillGrid('appsGrid',APPS);
+  tickClock();setInterval(tickClock,15000);
+  setInterval(randomPhrase,12000);randomPhrase();
+  $('view').addEventListener('load',function(){
+    setStatus('loaded in-app', $('urlInput').value);
+  });
+});
 </script>
 </body>
 </html>

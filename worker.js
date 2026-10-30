@@ -1,15 +1,8 @@
 /**
- * RustikOP — basic Cloudflare Worker proxy
- *
- * Deploy:
- *  1. dash.cloudflare.com → Workers & Pages → Create
- *  2. Paste this file → Deploy
- *  3. Copy URL (https://NAME.ACCOUNT.workers.dev)
- *  4. Set it in RustikOP (proxy dropdown / localStorage key rustikop_cf)
- *
- * Or: npx wrangler deploy worker.js --name rustikop-proxy
+ * RustikOP Cloudflare Worker — strips frame blockers so pages load in-app
+ * Deploy: paste into Workers → Deploy
+ * URL used by hub: https://supercool.unsamulige75.workers.dev
  */
-
 export default {
   async fetch(request) {
     const cors = {
@@ -17,19 +10,16 @@ export default {
       "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
       "Access-Control-Allow-Headers": "*",
     };
-
     if (request.method === "OPTIONS") {
       return new Response(null, { status: 204, headers: cors });
     }
 
     const url = new URL(request.url);
     const target = url.searchParams.get("url");
-
     if (!target) {
-      return new Response(
-        "RustikOP Cloudflare proxy\nUsage: /?url=https//:supercool.unsamulige75.workers.dev\n",
-        { status: 200, headers: { "content-type": "text/plain", ...cors } }
-      );
+      return new Response("RustikOP proxy\n/?url=https://example.com\n", {
+        headers: { "content-type": "text/plain", ...cors },
+      });
     }
 
     let dest;
@@ -45,10 +35,9 @@ export default {
     let upstream;
     try {
       upstream = await fetch(dest.href, {
-        method: "GET",
         headers: {
           "user-agent": request.headers.get("user-agent") || "Mozilla/5.0",
-          accept: request.headers.get("accept") || "*/*",
+          accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
         },
         redirect: "follow",
       });
@@ -63,7 +52,8 @@ export default {
     const out = {
       ...cors,
       "cache-control": "no-store",
-      "content-type": ctype || "application/octet-stream",
+      // allow embedding in RustikOP iframe
+      "content-security-policy": "frame-ancestors *",
     };
 
     if (ctype.includes("text/html")) {
@@ -85,15 +75,7 @@ export default {
           try {
             const abs = new URL(val, base).href;
             if (!/^https?:/i.test(abs)) return full;
-            return (
-              attr +
-              "=" +
-              q +
-              workerOrigin +
-              "/?url=" +
-              encodeURIComponent(abs) +
-              q
-            );
+            return attr + "=" + q + workerOrigin + "/?url=" + encodeURIComponent(abs) + q;
           } catch {
             return full;
           }
@@ -104,6 +86,7 @@ export default {
       return new Response(html, { status: upstream.status, headers: out });
     }
 
+    if (ctype) out["content-type"] = ctype;
     return new Response(upstream.body, { status: upstream.status, headers: out });
   },
 };
