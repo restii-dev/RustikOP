@@ -27,7 +27,7 @@ export default {
 
     if (!target) {
       return new Response(
-        "RustikOP Cloudflare proxy\nUsage: /?url=https://example.com\n",
+        "RustikOP Cloudflare proxy\nUsage: /?url=https//:supercool.unsamulige75.workers.dev\n",
         { status: 200, headers: { "content-type": "text/plain", ...cors } }
       );
     }
